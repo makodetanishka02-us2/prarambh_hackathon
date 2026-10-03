@@ -1,16 +1,18 @@
 /**
- * ConVerse Page: Progress & Defense Score Shell
+ * ConVerse Page: Progress & Awareness Profile
  * PS-10: Financial Scam Simulator & Awareness Engine
- * Foundation Owner: Tanishka
+ * Foundation & UI Owner: Tanishka
+ *
+ * Honest state-based progress tracking without fabricated metrics or fake rankings.
  */
 
 import { t } from '../i18n/i18n.js';
-import { getState } from '../app/state.js';
+import { getState, resetProgress } from '../app/state.js';
 import { createButton } from '../components/button.js';
 import { createCard } from '../components/card.js';
 import { createBadge } from '../components/badge.js';
 import { createProgressBar } from '../components/progress.js';
-import { showToast } from '../components/toast.js';
+import { REALISTIC_SCENARIOS } from '../data/initial-data.js';
 
 export function renderProgress(container) {
   container.innerHTML = "";
@@ -19,7 +21,8 @@ export function renderProgress(container) {
   pageWrap.className = "page-container";
 
   const state = getState();
-  const user = state.user;
+  const user = state.user || {};
+  const completedIds = user.completedSimulations || [];
 
   // Header
   const headerWrap = document.createElement("div");
@@ -30,107 +33,119 @@ export function renderProgress(container) {
   `;
   pageWrap.appendChild(headerWrap);
 
-  // Score Hero Card
-  const scoreCard = createCard({
-    title: user.level,
-    subtitle: `${user.completedSimulations.length} Scenarios Mastered`,
-    icon: "🏆",
-    badge: createBadge({ text: `${user.awarenessScore}% DEFENSE SCORE`, variant: "safe" }),
-    body: `
-      <div style="margin: 12px 0;">
-        <p class="text-sm">You are in the top 20% of protected users against UPI and SMS phishing attempts.</p>
-      </div>
-    `,
-    footer: `
-      <div class="flex items-center justify-between w-full">
-        <span class="text-xs text-muted">Last simulated: Today</span>
-        <button id="share-progress-btn" class="cv-btn cv-btn-primary cv-btn-sm">
-          📤 ${t("btn_share")}
-        </button>
-      </div>
-    `,
-    highlight: "primary"
-  });
-
-  const mainProgressBar = createProgressBar({
-    value: user.awarenessScore,
-    max: 100,
-    label: t("progress_score_label"),
-    variant: "safe"
-  });
-  scoreCard.querySelector(".cv-card-body").appendChild(mainProgressBar);
-
-  scoreCard.querySelector("#share-progress-btn").addEventListener("click", () => {
-    if (navigator.share) {
-      navigator.share({
-        title: "ConVerse Financial Scam Awareness",
-        text: `I scored ${user.awarenessScore}% on ConVerse Scam Defense! Test your financial scam awareness score:`,
-        url: window.location.href
-      }).catch(() => {});
-    } else {
-      navigator.clipboard.writeText(`I scored ${user.awarenessScore}% on ConVerse Scam Defense! Check your awareness at: ${window.location.href}`);
-      showToast({
-        title: "Link Copied!",
-        message: "Awareness score link copied to clipboard.",
-        type: "safe"
-      });
-    }
-  });
-
-  pageWrap.appendChild(scoreCard);
-
-  // Vulnerability Breakdown Card
-  const vulnBody = document.createElement("div");
-  vulnBody.className = "flex-col gap-sm";
-
-  const categories = [
-    { label: "UPI & QR Scam Defense", score: user.vulnerabilities.upi, variant: "safe" },
-    { label: "SMS & Phishing Link Detection", score: user.vulnerabilities.phishingSms, variant: "primary" },
-    { label: "Fake Impersonation Calls", score: user.vulnerabilities.fakeCalls, variant: "warn" },
-    { label: "Part-time Job Schemes", score: user.vulnerabilities.jobFraud, variant: "safe" },
-    { label: "High-Return Investment Scams", score: user.vulnerabilities.investmentScam, variant: "danger" }
-  ];
-
-  categories.forEach(item => {
-    const bar = createProgressBar({
-      value: item.score,
-      max: 100,
-      label: item.label,
-      variant: item.variant
+  // Check if any simulations have been completed
+  if (completedIds.length === 0) {
+    // Honest Empty State
+    const emptyCard = createCard({
+      title: t("progress_empty_title"),
+      subtitle: t("progress_empty_desc"),
+      icon: "ℹ️",
+      body: `
+        <p class="text-sm" style="margin-bottom: 14px;">
+          Your awareness score, category defense breakdown, and simulation history will be recorded locally as you practice scenarios.
+        </p>
+      `,
+      footer: `
+        <a href="#simulator" class="cv-btn cv-btn-primary cv-btn-md" style="text-decoration: none;">
+          ${t("hero_cta_start")} →
+        </a>
+      `
     });
-    vulnBody.appendChild(bar);
-  });
+    pageWrap.appendChild(emptyCard);
+  } else {
+    // Score & Readiness Profile
+    const completedScenarios = REALISTIC_SCENARIOS.filter(s => completedIds.includes(s.id));
+    const scoreVal = user.awarenessScore || 50;
 
-  const vulnCard = createCard({
-    title: t("progress_vulnerability_radar"),
-    subtitle: "Category-wise resilience and defense readiness",
-    icon: "📊",
-    body: vulnBody,
-    highlight: "primary"
-  });
-  pageWrap.appendChild(vulnCard);
-
-  // Earned Defense Badges
-  const badgesGrid = document.createElement("div");
-  badgesGrid.className = "grid-cols-3";
-
-  user.earnedBadges.forEach(badge => {
-    const bCard = createCard({
-      title: badge.name,
-      subtitle: badge.desc,
-      icon: badge.icon,
+    const profileCard = createCard({
+      title: `Defense Awareness Score: ${scoreVal} / 100`,
+      subtitle: `${completedIds.length} of ${REALISTIC_SCENARIOS.length} Available Scenarios Completed`,
+      badge: createBadge({ text: `${completedIds.length} COMPLETED`, variant: "safe" }),
+      body: `
+        <div style="margin: 8px 0 16px 0;">
+          <div class="flex items-center justify-between text-xs text-muted" style="margin-bottom: 4px;">
+            <span>Overall Readiness</span>
+            <span>${scoreVal} / 100</span>
+          </div>
+          <div class="cv-progress-track">
+            <div class="cv-progress-bar cv-progress-bar-safe" style="width: ${scoreVal}%;"></div>
+          </div>
+        </div>
+      `,
+      footer: `
+        <div class="flex items-center justify-between w-full">
+          <span class="text-xs text-muted">Stored locally on this device</span>
+          <a href="#simulator" class="cv-btn cv-btn-secondary cv-btn-sm" style="text-decoration: none;">
+            Practice More Scenarios →
+          </a>
+        </div>
+      `,
       highlight: "safe"
     });
-    badgesGrid.appendChild(bCard);
-  });
+    pageWrap.appendChild(profileCard);
 
-  const badgesSection = createCard({
-    title: t("progress_badges_title"),
-    subtitle: "Milestones unlocked across scam defense training",
-    icon: "🎖️",
-    body: badgesGrid
-  });
-  pageWrap.appendChild(badgesSection);
+    // List of Completed Scenarios
+    const historySection = document.createElement("section");
+    historySection.innerHTML = `
+      <h2 style="font-size: 17px; margin-bottom: 8px;">Completed Scenarios</h2>
+    `;
+    const historyGrid = document.createElement("div");
+    historyGrid.className = "grid-cols-2";
+
+    completedScenarios.forEach(sc => {
+      const card = createCard({
+        title: sc.title,
+        subtitle: `${sc.categoryLabel} • Difficulty: ${sc.difficulty}`,
+        badge: createBadge({ text: "PRACTICED", variant: "safe" }),
+        body: `<p class="text-xs" style="margin: 0;">${sc.shortDescription}</p>`,
+        footer: `
+          <a href="#simulator" class="cv-btn cv-btn-outline cv-btn-sm" style="text-decoration: none; width: 100%; text-align: center;">
+            Review Scenario
+          </a>
+        `
+      });
+      historyGrid.appendChild(card);
+    });
+
+    historySection.appendChild(historyGrid);
+    pageWrap.appendChild(historySection);
+  }
+
+  // Category Practice Matrix
+  const matrixSection = document.createElement("section");
+  matrixSection.innerHTML = `
+    <h2 style="font-size: 17px; margin-bottom: 4px;">${t("progress_vulnerability_radar")}</h2>
+    <p class="text-xs text-muted" style="margin-bottom: 12px;">Overview of practiced scam categories in India.</p>
+  `;
+
+  const matrixBody = document.createElement("div");
+  matrixBody.className = "cv-card";
+  matrixBody.style.padding = "16px";
+
+  const categories = [
+    { name: "UPI & Payment Fraud", id: "upi", status: completedIds.includes("sim-upi-qr-1") ? "Practiced" : "Pending Practice" },
+    { name: "Phishing & Utility Alerts", id: "phishing", status: completedIds.includes("sim-electricity-bill-1") ? "Practiced" : "Pending Practice" },
+    { name: "Bank & KYC Impersonation", id: "kyc", status: completedIds.includes("sim-fedex-police-1") ? "Practiced" : "Pending Practice" },
+    { name: "Job / Task Prepaid Scams", id: "job", status: completedIds.includes("sim-part-time-job-1") ? "Practiced" : "Pending Practice" },
+    { name: "High-Return Investment Scams", id: "investment", status: "Pending Practice" },
+    { name: "Instant Loan Scams", id: "loan", status: "Pending Practice" }
+  ];
+
+  matrixBody.innerHTML = `
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      ${categories.map(c => `
+        <div class="flex items-center justify-between" style="padding: 8px 12px; background: var(--color-bg-subtle); border-radius: var(--radius-sm);">
+          <span class="text-xs text-bold" style="color: var(--color-text);">${c.name}</span>
+          <span class="cv-badge ${c.status === 'Practiced' ? 'cv-badge-safe' : 'cv-badge-neutral'}">
+            ${c.status === 'Practiced' ? '✓ Practiced' : 'Pending'}
+          </span>
+        </div>
+      `).join("")}
+    </div>
+  `;
+
+  matrixSection.appendChild(matrixBody);
+  pageWrap.appendChild(matrixSection);
 
   container.appendChild(pageWrap);
 }

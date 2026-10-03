@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
   <title>ConVerse — Financial Scam Simulator & Awareness Engine</title>
-  <meta name="description" content="A mobile-first, 7-language financial scam simulator and awareness platform for India. Learn to identify UPI fraud, phishing SMS, fake calls, and protect your family.">
-  <meta name="theme-color" content="#6F4E37">
+  <meta name="description" content="Practice spotting financial scams before they cost you money. Realistic scam simulations, safety guides, and awareness tracking for India.">
+  <meta name="theme-color" content="#25231F">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="ConVerse">
@@ -18,7 +18,7 @@
   <!-- Typography: Outfit + Multilingual Indian Regional Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&family=Noto+Sans+Gurmukhi:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&family=Noto+Sans+Gurmukhi:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Core Design System CSS -->
   <link rel="stylesheet" href="./src/styles/tokens.css">
@@ -37,21 +37,20 @@
       <div class="header-container">
         <!-- Brand Logo & Title -->
         <a href="#dashboard" class="brand-link" aria-label="ConVerse Home">
-          <div class="brand-logo-icon">🛡️</div>
+          <div class="brand-logo-icon">CV</div>
           <div class="brand-text-group">
             <span class="brand-title" data-i18n="app_name">ConVerse</span>
-            <span class="brand-tagline" data-i18n="app_tagline">Scam Awareness Engine</span>
+            <span class="brand-tagline" data-i18n="app_tagline">Financial Scam Simulator</span>
           </div>
         </a>
 
         <!-- Desktop Navigation Bar -->
         <nav class="desktop-nav" aria-label="Primary Navigation">
-          <a href="#dashboard" class="desktop-nav-link active" data-i18n="nav_dashboard">Dashboard</a>
+          <a href="#dashboard" class="desktop-nav-link active" data-i18n="nav_home">Home</a>
           <a href="#simulator" class="desktop-nav-link" data-i18n="nav_simulator">Simulator</a>
-          <a href="#safety-tips" class="desktop-nav-link" data-i18n="nav_safety_tips">Safety Tips</a>
+          <a href="#safety-tips" class="desktop-nav-link" data-i18n="nav_safety_guides">Safety Guides</a>
           <a href="#progress" class="desktop-nav-link" data-i18n="nav_progress">Progress</a>
           <a href="#settings" class="desktop-nav-link" data-i18n="nav_settings">Settings</a>
-          <a href="#styleguide" class="desktop-nav-link" style="color: var(--color-primary);" data-i18n="nav_styleguide">Styleguide</a>
         </nav>
 
         <!-- Header Actions: Language Switcher Trigger -->
@@ -59,7 +58,7 @@
           <button type="button" id="header-lang-btn" class="lang-selector-trigger" aria-label="Switch Language / भाषा बदलें">
             <span>🌐</span>
             <span id="header-lang-label">English</span>
-            <span style="font-size: 10px; opacity: 0.7;">▼</span>
+            <span style="font-size: 10px; opacity: 0.6;">▼</span>
           </button>
         </div>
       </div>
@@ -74,7 +73,7 @@
     <nav class="app-bottom-nav" aria-label="Mobile Navigation">
       <a href="#dashboard" class="bottom-nav-item active" id="nav-item-dashboard">
         <span class="nav-icon" aria-hidden="true">🏠</span>
-        <span class="nav-label" data-i18n="nav_dashboard">Dashboard</span>
+        <span class="nav-label" data-i18n="nav_home">Home</span>
       </a>
       <a href="#simulator" class="bottom-nav-item" id="nav-item-simulator">
         <span class="nav-icon" aria-hidden="true">🎮</span>
@@ -82,7 +81,7 @@
       </a>
       <a href="#safety-tips" class="bottom-nav-item" id="nav-item-tips">
         <span class="nav-icon" aria-hidden="true">🛡️</span>
-        <span class="nav-label" data-i18n="nav_safety_tips">Safety Tips</span>
+        <span class="nav-label" data-i18n="nav_safety_guides">Safety Guides</span>
       </a>
       <a href="#progress" class="bottom-nav-item" id="nav-item-progress">
         <span class="nav-icon" aria-hidden="true">📊</span>

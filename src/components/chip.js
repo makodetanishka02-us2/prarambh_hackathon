@@ -1,22 +1,23 @@
 /**
  * ConVerse Shared UI — Chip Component
  * PS-10: Financial Scam Simulator & Awareness Engine
- * Foundation Owner: Tanishka
+ * Foundation & UI Owner: Tanishka
  */
 
 /**
- * Creates a reusable Chip element (for categories, indicators, tags, filters)
+ * Creates a reusable Chip element (for categories, filters, tags)
  * @param {Object} options
  * @param {string} options.label Chip text
- * @param {string} [options.icon=""] Optional icon/emoji
+ * @param {string} [options.icon=""] Optional icon/symbol
  * @param {boolean} [options.active=false] Whether chip is currently selected
  * @param {boolean} [options.clickable=true] Whether chip handles click events
  * @param {boolean} [options.removable=false] Whether chip has a remove button
- * @param {Function} [options.onClick] Click callback(isActive, chipEl)
+ * @param {Function} [options.onClick] Click callback(isActive, chipEl, value)
  * @param {Function} [options.onRemove] Remove callback(chipEl)
  * @param {string} [options.value=""] Value associated with chip
  * @param {string} [options.className=""] Extra class names
  * @param {string} [options.id=""] ID
+ * @param {string} [options.i18nKey=""] i18n translation key
  * @returns {HTMLSpanElement}
  */
 export function createChip({
@@ -46,6 +47,7 @@ export function createChip({
   if (icon) {
     const iconSpan = document.createElement("span");
     iconSpan.className = "cv-chip-icon";
+    iconSpan.setAttribute("aria-hidden", "true");
     iconSpan.innerHTML = icon;
     chip.appendChild(iconSpan);
   }

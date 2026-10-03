@@ -1,7 +1,7 @@
 /**
- * ConVerse Page: Styleguide & Component Showcase
+ * ConVerse Page: Styleguide & Component Library
  * PS-10: Financial Scam Simulator & Awareness Engine
- * Foundation Owner: Tanishka
+ * Foundation & UI Owner: Tanishka
  */
 
 import { t } from '../i18n/i18n.js';
@@ -31,39 +31,38 @@ export function renderStyleguide(container) {
 
   // 1. Color Palette Tokens Swatches
   const colorSwatchesHtml = `
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
-      <div style="background: #6F4E37; color: #fff; padding: 12px; border-radius: 8px; font-size: 11px;">
-        <strong>Primary Mocha</strong><br/>#6F4E37
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
+      <div style="background: #F7F4EE; color: #25231F; padding: 10px; border-radius: 6px; font-size: 11px; border: 1px solid #DED9CF;">
+        <strong>Background</strong><br/>#F7F4EE
       </div>
-      <div style="background: #C88A58; color: #000; padding: 12px; border-radius: 8px; font-size: 11px;">
-        <strong>Secondary Clay</strong><br/>#C88A58
+      <div style="background: #FFFFFF; color: #25231F; padding: 10px; border-radius: 6px; font-size: 11px; border: 1px solid #DED9CF;">
+        <strong>Surface Card</strong><br/>#FFFFFF
       </div>
-      <div style="background: #F5EBDD; color: #2B1D16; padding: 12px; border-radius: 8px; font-size: 11px; border: 1px solid #E0D0BE;">
-        <strong>Warm Background</strong><br/>#F5EBDD
+      <div style="background: #25231F; color: #FFFFFF; padding: 10px; border-radius: 6px; font-size: 11px;">
+        <strong>Primary Charcoal</strong><br/>#25231F
       </div>
-      <div style="background: #FAF2E8; color: #2B1D16; padding: 12px; border-radius: 8px; font-size: 11px; border: 1px solid #E0D0BE;">
-        <strong>Surface Warm</strong><br/>#FAF2E8
+      <div style="background: #524E47; color: #FFFFFF; padding: 10px; border-radius: 6px; font-size: 11px;">
+        <strong>Text Secondary</strong><br/>#524E47
       </div>
-      <div style="background: #2E7D32; color: #fff; padding: 12px; border-radius: 8px; font-size: 11px;">
-        <strong>Safe Green</strong><br/>#2E7D32
+      <div style="background: #1E6B38; color: #FFFFFF; padding: 10px; border-radius: 6px; font-size: 11px;">
+        <strong>Success / Safe</strong><br/>#1E6B38
       </div>
-      <div style="background: #D97706; color: #fff; padding: 12px; border-radius: 8px; font-size: 11px;">
-        <strong>Warning Amber</strong><br/>#D97706
+      <div style="background: #B45309; color: #FFFFFF; padding: 10px; border-radius: 6px; font-size: 11px;">
+        <strong>Warning Amber</strong><br/>#B45309
       </div>
-      <div style="background: #C5221F; color: #fff; padding: 12px; border-radius: 8px; font-size: 11px;">
-        <strong>Danger Red</strong><br/>#C5221F
+      <div style="background: #A8201A; color: #FFFFFF; padding: 10px; border-radius: 6px; font-size: 11px;">
+        <strong>Danger Red</strong><br/>#A8201A
       </div>
     </div>
   `;
   const colorCard = createCard({
     title: "1. Color Tokens Palette",
-    subtitle: "Warm, earthy mocha design system without pure white/grey backgrounds",
-    body: colorSwatchesHtml,
-    highlight: "primary"
+    subtitle: "Warm editorial palette without AI neon or purple gradients",
+    body: colorSwatchesHtml
   });
   pageWrap.appendChild(colorCard);
 
-  // 2. Buttons Showcase
+  // 2. Buttons Showcase (Rectangular with 6-8px radius)
   const btnWrap = document.createElement("div");
   btnWrap.className = "flex-col gap-sm";
 
@@ -71,12 +70,12 @@ export function renderStyleguide(container) {
   btnRow1.className = "flex items-center gap-xs";
   btnRow1.style.flexWrap = "wrap";
 
-  btnRow1.appendChild(createButton({ text: "Primary Button", variant: "primary", icon: "✨" }));
-  btnRow1.appendChild(createButton({ text: "Secondary", variant: "secondary", icon: "🔄" }));
+  btnRow1.appendChild(createButton({ text: "Primary Button", variant: "primary" }));
+  btnRow1.appendChild(createButton({ text: "Secondary", variant: "secondary" }));
   btnRow1.appendChild(createButton({ text: "Outline", variant: "outline" }));
   btnRow1.appendChild(createButton({ text: "Ghost", variant: "ghost" }));
-  btnRow1.appendChild(createButton({ text: "Safe Action", variant: "safe", icon: "🛡️" }));
-  btnRow1.appendChild(createButton({ text: "Danger", variant: "danger", icon: "🚨" }));
+  btnRow1.appendChild(createButton({ text: "Safe Action", variant: "safe" }));
+  btnRow1.appendChild(createButton({ text: "Danger", variant: "danger" }));
 
   const btnRow2 = document.createElement("div");
   btnRow2.className = "flex items-center gap-xs";
@@ -84,7 +83,6 @@ export function renderStyleguide(container) {
   btnRow2.appendChild(createButton({ text: "Small (sm)", size: "sm", variant: "primary" }));
   btnRow2.appendChild(createButton({ text: "Medium (md)", size: "md", variant: "primary" }));
   btnRow2.appendChild(createButton({ text: "Large (lg)", size: "lg", variant: "primary" }));
-  btnRow2.appendChild(createButton({ icon: "🔍", variant: "primary", ariaLabel: "Search Icon" }));
   btnRow2.appendChild(createButton({ text: "Disabled", variant: "primary", disabled: true }));
 
   btnWrap.appendChild(btnRow1);
@@ -92,24 +90,25 @@ export function renderStyleguide(container) {
 
   const buttonCard = createCard({
     title: "2. Buttons (.cv-btn)",
-    subtitle: "Variants: primary, secondary, outline, ghost, safe, danger | Sizes: sm, md, lg",
+    subtitle: "Rectangular 6–8px radius, min 44px touch height, solid high-contrast styles",
     body: btnWrap
   });
   pageWrap.appendChild(buttonCard);
 
-  // 3. Badges Showcase
+  // 3. Badges Showcase (Dual symbol + color)
   const badgeWrap = document.createElement("div");
   badgeWrap.className = "flex items-center gap-xs";
   badgeWrap.style.flexWrap = "wrap";
 
   badgeWrap.appendChild(createBadge({ text: "Verified Safe", variant: "safe" }));
-  badgeWrap.appendChild(createBadge({ text: "Suspicious Warning", variant: "warn" }));
+  badgeWrap.appendChild(createBadge({ text: "Suspicious Flag", variant: "warn" }));
   badgeWrap.appendChild(createBadge({ text: "High Risk Scam", variant: "danger" }));
-  badgeWrap.appendChild(createBadge({ text: "Threat Intelligence", variant: "info" }));
+  badgeWrap.appendChild(createBadge({ text: "Educational Note", variant: "info" }));
+  badgeWrap.appendChild(createBadge({ text: "Fictional Simulation", variant: "neutral" }));
 
   const badgeCard = createCard({
     title: "3. Badges (.cv-badge)",
-    subtitle: "Symbol + Color design ensures accessibility for all users",
+    subtitle: "Accessibility compliant with explicit symbols (✓, !, ✕, i)",
     body: badgeWrap
   });
   pageWrap.appendChild(badgeCard);
@@ -119,13 +118,13 @@ export function renderStyleguide(container) {
   chipWrap.className = "flex items-center gap-xs";
   chipWrap.style.flexWrap = "wrap";
 
-  chipWrap.appendChild(createChip({ label: "Active Filter", active: true, icon: "🏷️" }));
-  chipWrap.appendChild(createChip({ label: "Clickable Tag", active: false, icon: "📱", onClick: () => {} }));
+  chipWrap.appendChild(createChip({ label: "Active Category", active: true }));
+  chipWrap.appendChild(createChip({ label: "Selectable Filter", active: false, onClick: () => {} }));
   chipWrap.appendChild(createChip({ label: "Removable Indicator", removable: true, onRemove: () => {} }));
 
   const chipCard = createCard({
     title: "4. Chips (.cv-chip)",
-    subtitle: "Used for filters, tags, categories, and scam indicator chips",
+    subtitle: "Used selectively for category filters, tags, and difficulty pills",
     body: chipWrap
   });
   pageWrap.appendChild(chipCard);
@@ -133,60 +132,47 @@ export function renderStyleguide(container) {
   // 5. Tabs Showcase
   const tabsExample = createTabs({
     tabs: [
-      { id: "tab-upi", label: "UPI Fraud", icon: "📱", content: `<p class="text-sm" style="padding: 12px 0;">Content for UPI Fraud safety tab.</p>` },
-      { id: "tab-calls", label: "Fake Calls", icon: "📞", content: `<p class="text-sm" style="padding: 12px 0;">Content for Impersonation Calls safety tab.</p>` },
-      { id: "tab-sms", label: "Phishing SMS", icon: "💬", content: `<p class="text-sm" style="padding: 12px 0;">Content for SMS Phishing safety tab.</p>` }
+      { id: "tab-upi", label: "UPI Fraud", content: `<p class="text-sm" style="padding: 10px 0;">Content for UPI Fraud guidelines.</p>` },
+      { id: "tab-calls", label: "Fake Calls", content: `<p class="text-sm" style="padding: 10px 0;">Content for Impersonation Call guidelines.</p>` },
+      { id: "tab-sms", label: "Phishing SMS", content: `<p class="text-sm" style="padding: 10px 0;">Content for SMS Phishing guidelines.</p>` }
     ]
   });
 
   const tabCard = createCard({
     title: "5. Tabs (.cv-tabs)",
-    subtitle: "Keyboard accessible ARIA tablist with horizontal scrolling on mobile",
+    subtitle: "Accessible ARIA tablist with horizontal mobile scroll",
     body: tabsExample
   });
   pageWrap.appendChild(tabCard);
 
-  // 6. Dynamic Progress Bars
-  const progContainer = document.createElement("div");
-  progContainer.className = "flex-col gap-sm";
-
-  const dynamicBar = createProgressBar({
-    value: 65,
-    max: 100,
-    label: "Dynamic Defense Score",
-    variant: "safe"
+  // 6. Educational Feedback Block
+  const feedbackDemo = document.createElement("div");
+  feedbackDemo.innerHTML = `
+    <div class="cv-feedback-card cv-feedback-missed" style="margin-top: 0;">
+      <div class="cv-feedback-title">⚠ Warning Sign Missed</div>
+      <div class="cv-feedback-desc">Urgency was used to pressure you into acting quickly without verifying the source.</div>
+      <div class="cv-feedback-takeaway">
+        <strong>Safer Option:</strong> Verify the request through the organization's official verified portal directly.<br/>
+        <span class="text-muted">Why this mattered: Electricity boards never issue same-day disconnection notices via personal numbers.</span>
+      </div>
+    </div>
+  `;
+  const feedbackCard = createCard({
+    title: "6. Educational Feedback Block (.cv-feedback-card)",
+    subtitle: "Calm, educational, and non-judgmental feedback component",
+    body: feedbackDemo
   });
-
-  const sliderControl = document.createElement("input");
-  sliderControl.type = "range";
-  sliderControl.min = "0";
-  sliderControl.max = "100";
-  sliderControl.value = "65";
-  sliderControl.addEventListener("input", (e) => {
-    dynamicBar.setValue(Number(e.target.value));
-  });
-
-  progContainer.appendChild(dynamicBar);
-  progContainer.appendChild(sliderControl);
-
-  const progCard = createCard({
-    title: "6. Progress Bars (.cv-progress)",
-    subtitle: "Supports dynamic updates via setValue(val) method",
-    body: progContainer
-  });
-  pageWrap.appendChild(progCard);
+  pageWrap.appendChild(feedbackCard);
 
   // 7. Modal Dialog Trigger
   const modalTriggerBtn = createButton({
-    text: "Launch Sample Modal Dialog",
-    icon: "🪟",
+    text: "Launch Modal Dialog",
     variant: "primary",
     onClick: () => {
       const modal = createModal({
-        title: "Security Verification Dialog",
+        title: "Simulation Confirmation",
         content: `
-          <p class="text-sm">This is an accessible modal with full keyboard navigation (Escape to close, Tab focus trapping) and background blur.</p>
-          <p class="text-xs text-muted" style="margin-top: 8px;">Used for scam simulations, detailed indicator breakdowns, and confirmations.</p>
+          <p class="text-sm">This is an accessible modal with keyboard focus trapping, Escape key support, and clean solid surface styling.</p>
         `,
         footerButtons: [
           createButton({
@@ -196,7 +182,7 @@ export function renderStyleguide(container) {
             onClick: () => modal.close()
           }),
           createButton({
-            text: "Confirm Action",
+            text: "Confirm",
             variant: "primary",
             size: "sm",
             onClick: () => {
@@ -211,8 +197,8 @@ export function renderStyleguide(container) {
   });
 
   const modalCard = createCard({
-    title: "7. Modal Dialog (.cv-modal)",
-    subtitle: "Accessible modal with backdrop blur, focus trap, and close control",
+    title: "7. Accessible Modal (.cv-modal)",
+    subtitle: "Focus trapped, solid surface dialog",
     body: modalTriggerBtn
   });
   pageWrap.appendChild(modalCard);
@@ -226,33 +212,26 @@ export function renderStyleguide(container) {
     text: "Safe Toast",
     variant: "safe",
     size: "sm",
-    onClick: () => showToast({ title: "Safe Action", message: "No security issues detected.", type: "safe" })
+    onClick: () => showToast({ title: "Safe Choice", message: "You verified the sender.", type: "safe" })
   }));
 
   toastWrap.appendChild(createButton({
     text: "Warning Toast",
     variant: "warn",
     size: "sm",
-    onClick: () => showToast({ title: "Suspicious Alert", message: "Review permissions carefully.", type: "warn" })
+    onClick: () => showToast({ title: "Suspicious Flag", message: "Review permissions carefully.", type: "warn" })
   }));
 
   toastWrap.appendChild(createButton({
     text: "Danger Toast",
     variant: "danger",
     size: "sm",
-    onClick: () => showToast({ title: "Scam Detected", message: "Urgent: do not share OTP with anyone.", type: "danger" })
-  }));
-
-  toastWrap.appendChild(createButton({
-    text: "Info Toast",
-    variant: "secondary",
-    size: "sm",
-    onClick: () => showToast({ title: "System Update", message: "Scam radar trends refreshed.", type: "info" })
+    onClick: () => showToast({ title: "Scam Detected", message: "Never enter UPI PIN to receive money.", type: "danger" })
   }));
 
   const toastCard = createCard({
     title: "8. Toast Notifications (.cv-toast)",
-    subtitle: "Lightweight auto-dismissing notifications for user actions and alerts",
+    subtitle: "Non-intrusive notification banners",
     body: toastWrap
   });
   pageWrap.appendChild(toastCard);

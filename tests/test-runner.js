@@ -1,7 +1,7 @@
 /**
  * ConVerse Automated Test Runner
  * PS-10: Financial Scam Simulator & Awareness Engine
- * Foundation Owner: Tanishka
+ * Foundation & UI Owner: Tanishka
  */
 
 import en from '../src/locales/en/common.js';
@@ -14,7 +14,8 @@ import pa from '../src/locales/pa/common.js';
 import { SUPPORTED_LANGUAGES } from '../src/i18n/i18n.js';
 import { detectScamIndicators } from '../src/engine/detect/detect-contract.js';
 import { getActiveScamRadar } from '../src/engine/radar/radar-contract.js';
-import { SAMPLE_SCENARIOS, EMERGENCY_HELPLINES } from '../src/data/initial-data.js';
+import { getSafetyPlaybooks, getEmergencyHelplines } from '../src/engine/tips/tips-contract.js';
+import { REALISTIC_SCENARIOS, CORE_CATEGORIES, EMERGENCY_RESOURCES } from '../src/data/initial-data.js';
 
 let passed = 0;
 let failed = 0;
@@ -30,7 +31,7 @@ function assert(condition, message) {
 }
 
 console.log("\n==================================================");
-console.log("🛡️  CONVERSE FOUNDATION TEST SUITE");
+console.log("🛡️  CONVERSE FOUNDATION & UI REDESIGN TEST SUITE");
 console.log("==================================================\n");
 
 // 1. Test 7-Language i18n Completeness
@@ -59,10 +60,21 @@ assert(safeResult.riskLevel === "safe", "Detect contract identifies benign text 
 const radarThreats = getActiveScamRadar();
 assert(Array.isArray(radarThreats) && radarThreats.length > 0, "Radar contract returns list of active threats");
 
-// 4. Test Sample Data & Scenarios
-console.log("\nTEST SUITE 3: Shared Data & Helplines");
-assert(SAMPLE_SCENARIOS.length >= 4, "Initial data contains at least 4 realistic scenario blueprints");
-assert(EMERGENCY_HELPLINES.some(h => h.number === "1930"), "Emergency data contains National 1930 Helpline");
+// 4. Test Safety Guides & Emergency Resources
+console.log("\nTEST SUITE 3: Safety Guides & Emergency Resources");
+const guides = getSafetyPlaybooks();
+assert(guides.length >= 6, "Safety playbooks contain at least 6 structured DO/DON'T playbooks");
+assert(guides.some(g => g.category === "upi"), "Safety playbooks cover UPI scams");
+assert(guides.some(g => g.category === "phishing"), "Safety playbooks cover Phishing scams");
+
+const emergencyHelplines = getEmergencyHelplines();
+assert(emergencyHelplines.some(h => h.number === "1930"), "Emergency data contains National 1930 Helpline");
+
+// 5. Test Core Categories & Scenarios
+console.log("\nTEST SUITE 4: Core Categories & Scenarios");
+assert(CORE_CATEGORIES.length >= 6, "Contains all 6 core financial fraud categories");
+assert(REALISTIC_SCENARIOS.length >= 4, "Contains realistic simulation blueprints with channel data");
+assert(REALISTIC_SCENARIOS.every(s => s.channel && s.simulatedContent && s.choices.length > 0), "All scenarios contain valid communication channels and choices");
 
 console.log("\n==================================================");
 console.log(`TEST SUMMARY: ${passed} Passed, ${failed} Failed`);
