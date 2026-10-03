@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="description" content="ConVerse — Financial Scam Simulator & Awareness Engine for Indian Digital Banking Users">
+  <meta name="theme-color" content="#0F172A">
+  <title>ConVerse | Financial Scam Simulator & Awareness Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body class="dark-theme">
+  <div id="app" class="app-root">
+    <!-- Header / Navbar -->
+    <header class="app-header" role="banner">
+      <div class="header-container">
+        <a href="#/dashboard" class="brand-logo" aria-label="ConVerse Home">
+          <span class="logo-shield" aria-hidden="true">🛡️</span>
+          <span class="logo-text">Con<span class="logo-highlight">Verse</span></span>
+          <span class="badge-tag">PS-10</span>
+        </a>
+        <div class="header-actions">
+          <div class="persona-badge" id="currentPersonaDisplay" title="Current Persona">
+            <span class="persona-icon">🎓</span>
+            <span class="persona-name">Student</span>
+          </div>
+          <button id="themeToggleBtn" class="icon-btn" aria-label="Toggle Theme" title="Toggle Theme">
+            🌓
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main id="mainContent" class="main-content" role="main">
+      <!-- Dynamic page views injected here -->
+      <div id="pageContainer" class="page-container"></div>
+    </main>
+
+    <!-- Bottom Navigation Bar (Mobile-first) -->
+    <nav class="bottom-nav" role="navigation" aria-label="Main Navigation">
+      <a href="#/dashboard" class="nav-item" data-page="dashboard" id="nav-dashboard">
+        <span class="nav-icon" aria-hidden="true">📊</span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+      <a href="#/simulator" class="nav-item active" data-page="simulator" id="nav-simulator">
+        <span class="nav-icon" aria-hidden="true">🎮</span>
+        <span class="nav-label">Simulator</span>
+      </a>
+      <a href="#/radar" class="nav-item" data-page="radar" id="nav-radar">
+        <span class="nav-icon" aria-hidden="true">🎯</span>
+        <span class="nav-label">Radar</span>
+      </a>
+      <a href="#/tips" class="nav-item" data-page="tips" id="nav-tips">
+        <span class="nav-icon" aria-hidden="true">💡</span>
+        <span class="nav-label">Tips</span>
+      </a>
+      <a href="#/progress" class="nav-item" data-page="progress" id="nav-progress">
+        <span class="nav-icon" aria-hidden="true">🏆</span>
+        <span class="nav-label">Progress</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Shared Data & Scripts -->
+  <script src="/src/data/initial-data.js"></script>
+  <script src="/src/engine/sim/sim-contract.js"></script>
+  <script src="/src/engine/sim/scenario-schema.js"></script>
+  <script src="/src/engine/sim/scenario-validator.js"></script>
+  <script src="/src/engine/sim/scenario-scoring.js"></script>
+  <script src="/src/engine/sim/scenario-selector.js"></script>
+  <script src="/src/engine/sim/scenario-data.js"></script>
+  <script src="/src/engine/sim/scenario-engine.js"></script>
+  
+  <!-- Pages -->
+  <script src="/src/pages/dashboard.js"></script>
+  <script src="/src/pages/simulator.js"></script>
+  <script src="/src/pages/radar.js"></script>
+  <script src="/src/pages/tips.js"></script>
+  <script src="/src/pages/progress.js"></script>
+
+  <!-- App Entrypoint -->
+  <script src="/src/app.js"></script>
+</body>
+</html>

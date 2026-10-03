@@ -1,0 +1,21 @@
+{
+  "name": "converse",
+  "version": "1.0.0",
+  "description": "ConVerse — PS-10 Financial Scam Simulator & Awareness Engine",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node tests/test-runner.js"
+  },
+  "keywords": [
+    "scam-awareness",
+    "simulation",
+    "financial-literacy",
+    "cyber-security",
+    "upi-fraud-detection"
+  ],
+  "author": "ConVerse Team (Tanishka, Rucha)",
+  "license": "ISC"
+}
