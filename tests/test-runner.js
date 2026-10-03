@@ -1,6 +1,7 @@
 /**
  * ConVerse — Modular Deterministic Test Runner
  * Runs all unit and integration tests with zero external dependencies.
+ * Supports synchronous and asynchronous tests.
  */
 
 const fs = require('fs');
@@ -11,22 +12,16 @@ let passedTests = 0;
 let failedTests = 0;
 const failureDetails = [];
 
+const queue = [];
+let currentSuite = '';
+
 global.describe = function(suiteName, fn) {
-  console.log(`\n\x1b[1m\x1b[36m▶ Suite: ${suiteName}\x1b[0m`);
+  queue.push({ type: 'suite', name: suiteName });
   fn();
 };
 
 global.it = function(testName, fn) {
-  totalTests++;
-  try {
-    fn();
-    passedTests++;
-    console.log(`  \x1b[32m✔\x1b[0m ${testName}`);
-  } catch (err) {
-    failedTests++;
-    console.log(`  \x1b[31m✖\x1b[0m ${testName}`);
-    failureDetails.push({ testName, error: err });
-  }
+  queue.push({ type: 'test', name: testName, fn, suite: currentSuite });
 };
 
 global.expect = function(actual) {
@@ -94,7 +89,7 @@ global.expect = function(actual) {
   };
 };
 
-function runAllTests() {
+async function runAllTests() {
   console.log('====================================================');
   console.log('       ConVerse Deterministic Test Suite           ');
   console.log('====================================================');
@@ -111,12 +106,47 @@ function runAllTests() {
     }
   }
 
+  for (const item of queue) {
+    if (item.type === 'suite') {
+      console.log(`\n\x1b[1m\x1b[36m▶ Suite: ${item.name}\x1b[0m`);
+    } else if (item.type === 'test') {
+      totalTests++;
+      try {
+        if (item.fn.length > 0) {
+          // Callback style
+          await new Promise((resolve, reject) => {
+            try {
+              item.fn((err) => {
+                if (err) reject(err);
+                else resolve();
+              });
+            } catch (err) {
+              reject(err);
+            }
+          });
+        } else {
+          // Sync or Promise style
+          const res = item.fn();
+          if (res && typeof res.then === 'function') {
+            await res;
+          }
+        }
+        passedTests++;
+        console.log(`  \x1b[32m✔\x1b[0m ${item.name}`);
+      } catch (err) {
+        failedTests++;
+        console.log(`  \x1b[31m✖\x1b[0m ${item.name}`);
+        failureDetails.push({ testName: item.name, error: err });
+      }
+    }
+  }
+
   console.log('\n====================================================');
   console.log(`Summary: ${passedTests}/${totalTests} tests passed`);
   if (failedTests > 0) {
     console.log(`\x1b[31mFAILED: ${failedTests} test(s) failed\x1b[0m`);
     failureDetails.forEach(f => {
-      console.log(`\n\x1b[31m✖ ${f.testName}\x1b[0m\n  ${f.error.message}`);
+      console.log(`\n\x1b[31m✖ ${f.testName}\x1b[0m\n  ${f.error.message}\n${f.error.stack}`);
     });
     process.exit(1);
   } else {

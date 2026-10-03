@@ -1,6 +1,9 @@
 /**
- * ConVerse — Simulator Page (Baseline Integration)
- * Renders the mobile-first simulation canvas, connects with ScenarioEngine.
+ * ConVerse — Simulator Page (Production Integration)
+ * Problem Statement: PS-10 Financial Scam Simulator & Awareness Engine
+ * Author: Rucha
+ * 
+ * Full mobile-first interactive simulation canvas powered by ScenarioEngine.
  */
 
 const SimulatorPage = {
@@ -8,6 +11,7 @@ const SimulatorPage = {
   activeEngine: null,
   timerInterval: null,
   timeRemaining: 0,
+  selectedChoiceMeta: { startTime: 0 },
 
   render: function(container, params) {
     const scenarioId = params ? params.get('id') : null;
@@ -26,10 +30,23 @@ const SimulatorPage = {
 
         <!-- Scenario Selector View -->
         <div id="scenarioSelectionView">
+          <!-- Adaptive Recommendation Banner -->
+          <div id="adaptiveRecommendationBanner" class="card" style="display: none; background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.1)); border-color: rgba(99, 102, 241, 0.4);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--accent-cyan); letter-spacing: 0.05em;">🎯 Adaptive Recommendation</span>
+              <span id="recTargetDiff" class="difficulty-badge diff-2">Level 2</span>
+            </div>
+            <h3 id="recTitle" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem;">Scenario Title</h3>
+            <p id="recReason" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Reason</p>
+            <button id="playRecommendedBtn" class="next-step-btn" style="width: auto; padding: 0.6rem 1.25rem; font-size: 0.9rem;">
+              Play Recommended Scenario &rarr;
+            </button>
+          </div>
+
           <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
-              <h2 style="font-size: 1.1rem; font-weight: 700;">Select a Scenario</h2>
-              <div id="personaFilterInfo" style="font-size: 0.8rem; color: var(--accent-cyan);"></div>
+              <h2 style="font-size: 1.1rem; font-weight: 700;">Explore All Scenarios (S01–S10)</h2>
+              <div id="personaFilterInfo" style="font-size: 0.8rem; color: var(--accent-cyan); font-weight: 600;"></div>
             </div>
             <div id="scenarioListGrid" class="scenario-selector-grid">
               <!-- Rendered dynamically -->
@@ -47,7 +64,7 @@ const SimulatorPage = {
                 <div class="sim-contact-details">
                   <div class="sim-contact-name">
                     <span id="simSenderName">Bank Alert</span>
-                    <span id="simVerifiedBadge" class="verified-icon">✓</span>
+                    <span id="simVerifiedBadge" class="verified-icon" title="Verified Sender">✓</span>
                   </div>
                   <div id="simContactSub" class="sim-contact-sub">VK-SBIBNK</div>
                 </div>
@@ -123,11 +140,31 @@ const SimulatorPage = {
     document.getElementById('simulationResultView').style.display = 'none';
     document.getElementById('scenarioPickerBtn').style.display = 'none';
 
-    const grid = document.getElementById('scenarioListGrid');
-    if (!grid) return;
-
     const userPersona = window.ConVerseState ? window.ConVerseState.currentPersona : 'student';
     let scenarios = Object.values(window.ConVerseScenarios || {});
+
+    // Adaptive Recommendation Render
+    const recBanner = document.getElementById('adaptiveRecommendationBanner');
+    if (recBanner && window.ScenarioSelector) {
+      const history = JSON.parse(localStorage.getItem('converse_history') || '[]');
+      const rec = window.ScenarioSelector.getAdaptiveRecommendation({ persona: userPersona, history }, scenarios);
+      const recScenario = (window.ConVerseScenarios || {})[rec.nextScenarioId];
+
+      if (recScenario) {
+        recBanner.style.display = 'block';
+        document.getElementById('recTitle').textContent = `${recScenario.id}: ${recScenario.title}`;
+        document.getElementById('recReason').textContent = rec.reason;
+        const diffBadge = document.getElementById('recTargetDiff');
+        diffBadge.textContent = `Level ${rec.targetDifficulty}`;
+        diffBadge.className = `difficulty-badge diff-${rec.targetDifficulty}`;
+        
+        const playRecBtn = document.getElementById('playRecommendedBtn');
+        playRecBtn.onclick = () => this.loadScenario(recScenario.id);
+      }
+    }
+
+    const grid = document.getElementById('scenarioListGrid');
+    if (!grid) return;
 
     const filterInfo = document.getElementById('personaFilterInfo');
     if (filterInfo) {
@@ -183,6 +220,8 @@ const SimulatorPage = {
   renderNode: function(node) {
     if (!node) return;
 
+    this.selectedChoiceMeta.startTime = Date.now();
+
     // Reset feedback drawer
     document.getElementById('feedbackDrawer').style.display = 'none';
 
@@ -193,15 +232,20 @@ const SimulatorPage = {
     const contactSub = document.getElementById('simContactSub');
     const verifiedBadge = document.getElementById('simVerifiedBadge');
 
-    channelBadge.textContent = (node.channel || 'chat').toUpperCase();
+    channelBadge.textContent = (node.channel || 'sms').toUpperCase();
     if (node.sender) {
       avatar.textContent = node.sender.avatar || '👤';
       senderName.textContent = node.sender.name || 'Unknown Contact';
       contactSub.textContent = node.sender.handle || '';
       verifiedBadge.style.display = node.sender.verified ? 'inline' : 'none';
+    } else {
+      avatar.textContent = '📱';
+      senderName.textContent = 'Notification Alert';
+      contactSub.textContent = '';
+      verifiedBadge.style.display = 'none';
     }
 
-    // Message rendering with optional Red-Flag tooltips
+    // Message rendering with Red-Flag highlights
     const msgBubble = document.getElementById('simMessageBubble');
     msgBubble.className = 'sim-message-bubble ' + (node.channel || 'sms');
     
@@ -209,7 +253,7 @@ const SimulatorPage = {
     if (node.redFlags && node.redFlags.length > 0) {
       node.redFlags.forEach(rf => {
         const regex = new RegExp(`(${rf.text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
-        renderedMessage = renderedMessage.replace(regex, `<span class="red-flag-span" title="Potential Red Flag: ${rf.explanation}" onclick="SimulatorPage.showRedFlagInfo('${rf.indicatorId}', '${rf.explanation.replace(/'/g, "\\'")}')">$1</span>`);
+        renderedMessage = renderedMessage.replace(regex, `<span class="red-flag-span" role="button" tabindex="0" title="Inspect Red Flag" onclick="SimulatorPage.showRedFlagInfo('${rf.indicatorId}', '${rf.explanation.replace(/'/g, "\\'")}', '${rf.text.replace(/'/g, "\\'")}')" onkeydown="if(event.key==='Enter') SimulatorPage.showRedFlagInfo('${rf.indicatorId}', '${rf.explanation.replace(/'/g, "\\'")}', '${rf.text.replace(/'/g, "\\'")}')">$1</span>`);
       });
     }
     msgBubble.innerHTML = renderedMessage;
@@ -269,7 +313,8 @@ const SimulatorPage = {
     clearInterval(this.timerInterval);
     if (!this.activeEngine) return;
 
-    const outcome = this.activeEngine.choose(choiceId, { ms: 1000 });
+    const ms = Date.now() - (this.selectedChoiceMeta.startTime || Date.now());
+    const outcome = this.activeEngine.choose(choiceId, { ms });
     this.showFeedback(outcome.choice, outcome.nextNode, outcome.isComplete);
   },
 
@@ -278,7 +323,7 @@ const SimulatorPage = {
     const outcome = this.activeEngine.handleTimeout();
     const fakeChoice = {
       good: false,
-      consequence: 'Time ran out! High-pressure urgency caused a delay/missed recognition.',
+      consequence: 'Time expired! High urgency countdown created panic and caused a missed scam indicator.',
       indicatorIds: ['U1']
     };
     this.showFeedback(fakeChoice, outcome.nextNode, outcome.isComplete);
@@ -314,7 +359,7 @@ const SimulatorPage = {
       return `<span class="indicator-tag-pill tag-${dim}">${label}</span>`;
     }).join('');
 
-    // Remove old listeners
+    // Rebind next button
     const newBtn = nextBtn.cloneNode(true);
     nextBtn.parentNode.replaceChild(newBtn, nextBtn);
 
@@ -345,12 +390,23 @@ const SimulatorPage = {
     history.push({
       scenarioId: result.scenarioId,
       scorePercentage: result.scorePercentage,
+      missedIndicators: result.missedIndicators || [],
       verdict: result.verdict,
       date: Date.now()
     });
     localStorage.setItem('converse_history', JSON.stringify(history));
 
     const verdictClass = result.verdict === 'SAFE' ? 'verdict-safe' : result.verdict === 'VULNERABLE' ? 'verdict-vulnerable' : 'verdict-compromised';
+
+    // Get adaptive next recommendation
+    let nextRecScenarioId = 'S01';
+    if (window.ScenarioSelector) {
+      const rec = window.ScenarioSelector.getAdaptiveRecommendation({
+        persona: window.ConVerseState ? window.ConVerseState.currentPersona : 'student',
+        history
+      }, Object.values(window.ConVerseScenarios || {}));
+      nextRecScenarioId = rec.nextScenarioId;
+    }
 
     resultView.innerHTML = `
       <div class="result-card">
@@ -395,29 +451,37 @@ const SimulatorPage = {
         ` : ''}
 
         <div class="result-action-row">
-          <button class="next-step-btn" onclick="SimulatorPage.loadScenario('${result.scenarioId}')">
-            🔄 Replay Scenario
+          <button class="next-step-btn" onclick="SimulatorPage.loadScenario('${nextRecScenarioId}')">
+            🎯 Play Next Recommended (${nextRecScenarioId}) &rarr;
+          </button>
+          <button class="btn-secondary" onclick="SimulatorPage.loadScenario('${result.scenarioId}')">
+            🔄 Replay This Scenario
           </button>
           <button class="btn-secondary" onclick="SimulatorPage.renderScenarioList()">
-            📋 Choose Another Scenario
+            📋 All Scenarios
           </button>
         </div>
       </div>
     `;
   },
 
-  showRedFlagInfo: function(indicatorId, explanation) {
+  showRedFlagInfo: function(indicatorId, explanation, text) {
     const modal = document.createElement('div');
     modal.className = 'modal-backdrop';
+    const info = (window.ConVerseData && window.ConVerseData.INDICATOR_CATALOGUE) ? window.ConVerseData.INDICATOR_CATALOGUE[indicatorId] : null;
+    
     modal.innerHTML = `
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-          <h3 style="font-size: 1.1rem; font-weight: 700; color: #EF4444;">🚩 Red Flag Detected</h3>
-          <button class="icon-btn" onclick="this.closest('.modal-backdrop').remove()" style="min-width: 32px; min-height: 32px; width: 32px; height: 32px;">✕</button>
+          <h3 style="font-size: 1.1rem; font-weight: 700; color: #EF4444; display: flex; align-items: center; gap: 0.4rem;">
+            <span>🚩</span> Red Flag Detected
+          </h3>
+          <button class="icon-btn" onclick="this.closest('.modal-backdrop').remove()" style="min-width: 32px; min-height: 32px; width: 32px; height: 32px;" aria-label="Close modal">✕</button>
         </div>
-        <p style="font-size: 0.95rem; color: #F8FAFC; margin-bottom: 0.75rem;">${explanation}</p>
-        <div style="font-size: 0.8rem; color: var(--text-secondary);">
-          Indicator Flag: <strong>${indicatorId}</strong>
+        ${text ? `<div style="font-style: italic; background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 6px; margin-bottom: 0.75rem; border-left: 3px solid #EF4444; color: #CBD5E1; font-size: 0.88rem;">"${text}"</div>` : ''}
+        <p style="font-size: 0.95rem; color: #F8FAFC; margin-bottom: 0.75rem; line-height: 1.5;">${explanation}</p>
+        <div style="font-size: 0.8rem; color: var(--text-secondary); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;">
+          Indicator: <strong style="color: var(--accent-cyan);">${indicatorId} — ${info ? info.name : ''}</strong>
         </div>
       </div>
     `;
