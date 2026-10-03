@@ -1,7 +1,7 @@
 /**
  * ConVerse — Modular Deterministic Test Runner
  * Runs all unit and integration tests with zero external dependencies.
- * Supports synchronous and asynchronous tests.
+ * Supports synchronous and asynchronous tests with positive and negated matchers.
  */
 
 const fs = require('fs');
@@ -24,69 +24,89 @@ global.it = function(testName, fn) {
   queue.push({ type: 'test', name: testName, fn, suite: currentSuite });
 };
 
-global.expect = function(actual) {
+function createMatcherObject(actual, isNot = false) {
   return {
     toBe: function(expected) {
-      if (actual !== expected) {
-        throw new Error(`Expected [${expected}] (${typeof expected}) but got [${actual}] (${typeof actual})`);
+      const match = actual === expected;
+      if (isNot ? match : !match) {
+        throw new Error(isNot 
+          ? `Expected value NOT to be [${expected}]` 
+          : `Expected [${expected}] (${typeof expected}) but got [${actual}] (${typeof actual})`);
       }
     },
     toEqual: function(expected) {
       const actualStr = JSON.stringify(actual);
       const expectedStr = JSON.stringify(expected);
-      if (actualStr !== expectedStr) {
-        throw new Error(`Expected equality:\n  Expected: ${expectedStr}\n  Actual:   ${actualStr}`);
+      const match = actualStr === expectedStr;
+      if (isNot ? match : !match) {
+        throw new Error(isNot 
+          ? `Expected values NOT to equal:\n  Target: ${actualStr}` 
+          : `Expected equality:\n  Expected: ${expectedStr}\n  Actual:   ${actualStr}`);
       }
     },
     toBeGreaterThan: function(expected) {
-      if (!(actual > expected)) {
-        throw new Error(`Expected ${actual} > ${expected}`);
+      const match = actual > expected;
+      if (isNot ? match : !match) {
+        throw new Error(`Expected ${actual} ${isNot ? 'NOT >' : '>'} ${expected}`);
       }
     },
     toBeGreaterThanOrEqual: function(expected) {
-      if (!(actual >= expected)) {
-        throw new Error(`Expected ${actual} >= ${expected}`);
+      const match = actual >= expected;
+      if (isNot ? match : !match) {
+        throw new Error(`Expected ${actual} ${isNot ? 'NOT >=' : '>='} ${expected}`);
       }
     },
     toBeLessThanOrEqual: function(expected) {
-      if (!(actual <= expected)) {
-        throw new Error(`Expected ${actual} <= ${expected}`);
+      const match = actual <= expected;
+      if (isNot ? match : !match) {
+        throw new Error(`Expected ${actual} ${isNot ? 'NOT <=' : '<='} ${expected}`);
       }
     },
     toBeDefined: function() {
-      if (typeof actual === 'undefined') {
-        throw new Error(`Expected value to be defined`);
+      const match = typeof actual !== 'undefined';
+      if (isNot ? match : !match) {
+        throw new Error(`Expected value ${isNot ? 'NOT ' : ''}to be defined`);
       }
     },
     toBeNull: function() {
-      if (actual !== null) {
-        throw new Error(`Expected null but got ${actual}`);
+      const match = actual === null;
+      if (isNot ? match : !match) {
+        throw new Error(`Expected ${isNot ? 'NOT null' : 'null'} but got ${actual}`);
       }
     },
     toBeTruthy: function() {
-      if (!actual) {
-        throw new Error(`Expected truthy value but got ${actual}`);
+      const match = !!actual;
+      if (isNot ? match : !match) {
+        throw new Error(`Expected ${isNot ? 'falsy' : 'truthy'} value but got ${actual}`);
       }
     },
     toBeFalsy: function() {
-      if (actual) {
-        throw new Error(`Expected falsy value but got ${actual}`);
+      const match = !actual;
+      if (isNot ? match : !match) {
+        throw new Error(`Expected ${isNot ? 'truthy' : 'falsy'} value but got ${actual}`);
       }
     },
     toContain: function(item) {
+      let match = false;
       if (Array.isArray(actual)) {
-        if (!actual.includes(item)) {
-          throw new Error(`Expected array to contain [${item}], got: ${JSON.stringify(actual)}`);
-        }
+        match = actual.includes(item);
       } else if (typeof actual === 'string') {
-        if (!actual.includes(item)) {
-          throw new Error(`Expected string to contain "${item}", got: "${actual}"`);
-        }
+        match = actual.includes(item);
       } else {
         throw new Error(`toContain called on non-collection`);
       }
+
+      if (isNot ? match : !match) {
+        throw new Error(`Expected [${JSON.stringify(actual)}] ${isNot ? 'NOT ' : ''}to contain [${item}]`);
+      }
     }
   };
+}
+
+global.expect = function(actual) {
+  const matchers = createMatcherObject(actual, false);
+  matchers.not = createMatcherObject(actual, true);
+  return matchers;
 };
 
 async function runAllTests() {

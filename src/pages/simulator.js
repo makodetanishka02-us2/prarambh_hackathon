@@ -1,9 +1,10 @@
 /**
- * ConVerse — Simulator Page (Production Integration)
+ * ConVerse — Interactive Scam Simulator & Learning Engine (simulator.js)
  * Problem Statement: PS-10 Financial Scam Simulator & Awareness Engine
  * Author: Rucha
  * 
- * Full mobile-first interactive simulation canvas powered by ScenarioEngine.
+ * Production-ready simulation controller wired to ScenarioEngine, AdaptiveEngine,
+ * Text-to-Speech (speechSynthesis), Confidence Selector, and 3-Scenario Training Sessions.
  */
 
 const SimulatorPage = {
@@ -11,27 +12,55 @@ const SimulatorPage = {
   activeEngine: null,
   timerInterval: null,
   timeRemaining: 0,
-  selectedChoiceMeta: { startTime: 0 },
+  nodeStartTime: 0,
+  selectedConfidence: 2, // 1: Unsure, 2: Fairly sure, 3: Certain
+  isSpeaking: false,
+
+  // 3-Scenario Session Tracking
+  sessionMode: false,
+  sessionScenarios: [],
+  sessionIndex: 0,
+  sessionResults: [],
 
   render: function(container, params) {
     const scenarioId = params ? params.get('id') : null;
-    
+    const startSessionParam = params ? params.get('session') : null;
+
     container.innerHTML = `
       <div class="simulator-view">
-        <div id="simHeaderContainer" class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div id="simHeaderContainer" class="section-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
           <div>
             <h1 class="section-title">🎮 Scam Simulator</h1>
-            <p class="section-desc">Test your instincts in realistic simulated fraud encounters.</p>
+            <p class="section-desc">Experience and outsmart realistic Indian financial scams in simulated channels.</p>
           </div>
-          <button id="scenarioPickerBtn" class="btn-secondary" style="font-size: 0.85rem; padding: 0.4rem 0.8rem; min-height: 38px; display: none;">
-            Change Scenario
-          </button>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <div id="sessionProgressBadge" class="badge-tag" style="display: none; background: rgba(16, 185, 129, 0.2); color: #6EE7B7; font-size: 0.8rem; padding: 0.35rem 0.65rem;">
+              Session: 1/3
+            </div>
+            <button id="scenarioPickerBtn" class="btn-secondary" style="font-size: 0.85rem; padding: 0.4rem 0.8rem; min-height: 38px; display: none;">
+              Change Scenario
+            </button>
+          </div>
         </div>
 
-        <!-- Scenario Selector View -->
+        <!-- Scenario Selector & Session Launcher View -->
         <div id="scenarioSelectionView">
+          <!-- 3-Scenario Training Session Banner -->
+          <div class="card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.1)); border-color: rgba(16, 185, 129, 0.4); margin-bottom: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+              <div>
+                <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--accent-emerald); letter-spacing: 0.05em;">⚡ Comprehensive Training Mode</span>
+                <h3 style="font-size: 1.15rem; font-weight: 800; margin: 0.25rem 0;">Start 3-Scenario Awareness Session</h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">Play a curated 3-scenario training cycle tailored to your persona vulnerability profile.</p>
+              </div>
+              <button id="start3SessionBtn" class="next-step-btn" style="width: auto; padding: 0.65rem 1.25rem; font-size: 0.9rem; background: var(--accent-emerald);">
+                Start 3-Scenario Session 🚀
+              </button>
+            </div>
+          </div>
+
           <!-- Adaptive Recommendation Banner -->
-          <div id="adaptiveRecommendationBanner" class="card" style="display: none; background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.1)); border-color: rgba(99, 102, 241, 0.4);">
+          <div id="adaptiveRecommendationBanner" class="card" style="display: none; background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.1)); border-color: rgba(99, 102, 241, 0.4); margin-bottom: 1.25rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
               <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--accent-cyan); letter-spacing: 0.05em;">🎯 Adaptive Recommendation</span>
               <span id="recTargetDiff" class="difficulty-badge diff-2">Level 2</span>
@@ -43,6 +72,7 @@ const SimulatorPage = {
             </button>
           </div>
 
+          <!-- Scenarios List Grid -->
           <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
               <h2 style="font-size: 1.1rem; font-weight: 700;">Explore All Scenarios (S01–S10)</h2>
@@ -69,7 +99,13 @@ const SimulatorPage = {
                   <div id="simContactSub" class="sim-contact-sub">VK-SBIBNK</div>
                 </div>
               </div>
-              <div id="simChannelBadge" class="badge-tag">SMS</div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <!-- Speaker / Audio Button -->
+                <button id="speechSynthesisBtn" class="icon-btn" title="Read Aloud" aria-label="Read Aloud" style="font-size: 1.1rem; min-width: 34px; min-height: 34px; width: 34px; height: 34px;">
+                  🔊
+                </button>
+                <div id="simChannelBadge" class="badge-tag">SMS</div>
+              </div>
             </div>
 
             <!-- Urgency Timer Bar -->
@@ -81,6 +117,24 @@ const SimulatorPage = {
             <div class="sim-chat-body">
               <div id="simMessageBubble" class="sim-message-bubble">
                 Loading scenario message...
+              </div>
+            </div>
+
+            <!-- Confidence Selector -->
+            <div class="card" style="margin: 0.75rem 0; padding: 0.6rem 0.85rem; background: var(--bg-tertiary); border: 1px solid var(--border-glass);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.05em;">How confident are you in this decision?</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem;">
+                <button type="button" class="btn-secondary conf-btn" id="confBtn1" onclick="SimulatorPage.setConfidence(1)" style="padding: 0.4rem 0.5rem; font-size: 0.8rem;">
+                  🤷‍♂️ Unsure
+                </button>
+                <button type="button" class="btn-secondary conf-btn active" id="confBtn2" onclick="SimulatorPage.setConfidence(2)" style="padding: 0.4rem 0.5rem; font-size: 0.8rem; border-color: var(--accent-cyan); background: rgba(6, 182, 212, 0.15);">
+                  🤔 Fairly Sure
+                </button>
+                <button type="button" class="btn-secondary conf-btn" id="confBtn3" onclick="SimulatorPage.setConfidence(3)" style="padding: 0.4rem 0.5rem; font-size: 0.8rem;">
+                  🎯 Certain
+                </button>
               </div>
             </div>
 
@@ -112,12 +166,20 @@ const SimulatorPage = {
         <div id="simulationResultView" style="display: none;">
           <!-- Result Card rendered dynamically -->
         </div>
+
+        <!-- Session Completed Summary View -->
+        <div id="sessionSummaryView" style="display: none;">
+          <!-- 3-Scenario Grand Summary rendered dynamically -->
+        </div>
       </div>
     `;
 
     this.bindEvents();
 
-    if (scenarioId && window.ConVerseScenarios && window.ConVerseScenarios[scenarioId]) {
+    if (startSessionParam === 'true') {
+      this.start3ScenarioSession();
+    } else if (scenarioId && window.ConVerseScenarios && window.ConVerseScenarios[scenarioId]) {
+      this.sessionMode = false;
       this.loadScenario(scenarioId);
     } else {
       this.renderScenarioList();
@@ -128,17 +190,118 @@ const SimulatorPage = {
     const pickerBtn = document.getElementById('scenarioPickerBtn');
     if (pickerBtn) {
       pickerBtn.addEventListener('click', () => {
+        this.stopSpeech();
         this.renderScenarioList();
       });
     }
+
+    const startSessionBtn = document.getElementById('start3SessionBtn');
+    if (startSessionBtn) {
+      startSessionBtn.addEventListener('click', () => {
+        this.start3ScenarioSession();
+      });
+    }
+
+    const speechBtn = document.getElementById('speechSynthesisBtn');
+    if (speechBtn) {
+      if (!('speechSynthesis' in window)) {
+        speechBtn.style.display = 'none';
+      } else {
+        speechBtn.addEventListener('click', () => {
+          this.toggleSpeech();
+        });
+      }
+    }
+  },
+
+  setConfidence: function(level) {
+    this.selectedConfidence = level;
+    for (let i = 1; i <= 3; i++) {
+      const btn = document.getElementById(`confBtn${i}`);
+      if (btn) {
+        if (i === level) {
+          btn.style.borderColor = 'var(--accent-cyan)';
+          btn.style.background = 'rgba(6, 182, 212, 0.2)';
+        } else {
+          btn.style.borderColor = '';
+          btn.style.background = '';
+        }
+      }
+    }
+  },
+
+  toggleSpeech: function() {
+    if (!('speechSynthesis' in window)) return;
+
+    if (this.isSpeaking) {
+      this.stopSpeech();
+    } else {
+      const msgBubble = document.getElementById('simMessageBubble');
+      const textToSpeak = msgBubble ? msgBubble.innerText : '';
+      if (!textToSpeak) return;
+
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.rate = 1.0;
+      utterance.onend = () => {
+        this.isSpeaking = false;
+        const btn = document.getElementById('speechSynthesisBtn');
+        if (btn) btn.textContent = '🔊';
+      };
+      utterance.onerror = () => {
+        this.isSpeaking = false;
+        const btn = document.getElementById('speechSynthesisBtn');
+        if (btn) btn.textContent = '🔊';
+      };
+
+      this.isSpeaking = true;
+      const btn = document.getElementById('speechSynthesisBtn');
+      if (btn) btn.textContent = '⏹️';
+      window.speechSynthesis.speak(utterance);
+    }
+  },
+
+  stopSpeech: function() {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    this.isSpeaking = false;
+    const btn = document.getElementById('speechSynthesisBtn');
+    if (btn) btn.textContent = '🔊';
+  },
+
+  start3ScenarioSession: function() {
+    const userPersona = window.ConVerseState ? window.ConVerseState.currentPersona : 'student';
+    const allScenarios = Object.values(window.ConVerseScenarios || {});
+    
+    // Pick 3 prioritized scenarios for user persona
+    let sequence = [];
+    if (window.ScenarioSelector && typeof window.ScenarioSelector.getPrioritizedScenarios === 'function') {
+      const prioritized = window.ScenarioSelector.getPrioritizedScenarios(userPersona, allScenarios);
+      sequence = prioritized.slice(0, 3).map(s => s.id);
+    } else {
+      sequence = ['S01', 'S03', 'S04'];
+    }
+
+    this.sessionMode = true;
+    this.sessionScenarios = sequence;
+    this.sessionIndex = 0;
+    this.sessionResults = [];
+
+    this.loadScenario(this.sessionScenarios[0]);
   },
 
   renderScenarioList: function() {
     clearInterval(this.timerInterval);
+    this.stopSpeech();
+    this.sessionMode = false;
+
     document.getElementById('scenarioSelectionView').style.display = 'block';
     document.getElementById('simulationActiveView').style.display = 'none';
     document.getElementById('simulationResultView').style.display = 'none';
+    document.getElementById('sessionSummaryView').style.display = 'none';
     document.getElementById('scenarioPickerBtn').style.display = 'none';
+    document.getElementById('sessionProgressBadge').style.display = 'none';
 
     const userPersona = window.ConVerseState ? window.ConVerseState.currentPersona : 'student';
     let scenarios = Object.values(window.ConVerseScenarios || {});
@@ -159,7 +322,10 @@ const SimulatorPage = {
         diffBadge.className = `difficulty-badge diff-${rec.targetDifficulty}`;
         
         const playRecBtn = document.getElementById('playRecommendedBtn');
-        playRecBtn.onclick = () => this.loadScenario(recScenario.id);
+        playRecBtn.onclick = () => {
+          this.sessionMode = false;
+          this.loadScenario(recScenario.id);
+        };
       }
     }
 
@@ -204,11 +370,22 @@ const SimulatorPage = {
       return;
     }
 
+    this.stopSpeech();
     document.getElementById('scenarioSelectionView').style.display = 'none';
     document.getElementById('simulationActiveView').style.display = 'block';
     document.getElementById('simulationResultView').style.display = 'none';
+    document.getElementById('sessionSummaryView').style.display = 'none';
     document.getElementById('scenarioPickerBtn').style.display = 'inline-block';
     document.getElementById('feedbackDrawer').style.display = 'none';
+
+    // Update Session Badge if in 3-Scenario mode
+    const sessionBadge = document.getElementById('sessionProgressBadge');
+    if (this.sessionMode) {
+      sessionBadge.style.display = 'inline-block';
+      sessionBadge.textContent = `Session: ${this.sessionIndex + 1}/3 (${scenarioId})`;
+    } else {
+      sessionBadge.style.display = 'none';
+    }
 
     this.activeEngine = new window.ScenarioEngine();
     const startNode = this.activeEngine.startScenario(scenarioId);
@@ -220,7 +397,8 @@ const SimulatorPage = {
   renderNode: function(node) {
     if (!node) return;
 
-    this.selectedChoiceMeta.startTime = Date.now();
+    this.nodeStartTime = Date.now();
+    this.stopSpeech();
 
     // Reset feedback drawer
     document.getElementById('feedbackDrawer').style.display = 'none';
@@ -245,7 +423,7 @@ const SimulatorPage = {
       verifiedBadge.style.display = 'none';
     }
 
-    // Message rendering with Red-Flag highlights
+    // Message rendering with clickable Red-Flag highlights
     const msgBubble = document.getElementById('simMessageBubble');
     msgBubble.className = 'sim-message-bubble ' + (node.channel || 'sms');
     
@@ -311,15 +489,20 @@ const SimulatorPage = {
 
   handleChoice: function(choiceId) {
     clearInterval(this.timerInterval);
+    this.stopSpeech();
     if (!this.activeEngine) return;
 
-    const ms = Date.now() - (this.selectedChoiceMeta.startTime || Date.now());
-    const outcome = this.activeEngine.choose(choiceId, { ms });
+    const ms = Date.now() - (this.nodeStartTime || Date.now());
+    const outcome = this.activeEngine.choose(choiceId, { 
+      ms, 
+      confidence: this.selectedConfidence 
+    });
     this.showFeedback(outcome.choice, outcome.nextNode, outcome.isComplete);
   },
 
   handleTimeout: function() {
     if (!this.activeEngine) return;
+    this.stopSpeech();
     const outcome = this.activeEngine.handleTimeout();
     const fakeChoice = {
       good: false,
@@ -351,7 +534,7 @@ const SimulatorPage = {
 
     text.textContent = choice.consequence || 'Decision evaluated.';
 
-    // Tags
+    // Indicator Tags
     tags.innerHTML = (choice.indicatorIds || []).map(tag => {
       const dim = tag.charAt(0).toLowerCase();
       const info = (window.ConVerseData && window.ConVerseData.INDICATOR_CATALOGUE) ? window.ConVerseData.INDICATOR_CATALOGUE[tag] : null;
@@ -364,7 +547,10 @@ const SimulatorPage = {
     nextBtn.parentNode.replaceChild(newBtn, nextBtn);
 
     if (isComplete) {
-      newBtn.textContent = 'View Final Simulation Report 🏆';
+      newBtn.textContent = this.sessionMode && this.sessionIndex < 2 
+        ? `Proceed to Next Scenario (${this.sessionIndex + 2}/3) &rarr;` 
+        : 'View Final Simulation Report 🏆';
+      
       newBtn.addEventListener('click', () => {
         this.showResult();
       });
@@ -379,26 +565,53 @@ const SimulatorPage = {
 
   showResult: function() {
     clearInterval(this.timerInterval);
+    this.stopSpeech();
     document.getElementById('simulationActiveView').style.display = 'none';
-    const resultView = document.getElementById('simulationResultView');
-    resultView.style.display = 'block';
 
     const result = this.activeEngine.getResult();
 
-    // Save history
+    // Save individual scenario history
     const history = JSON.parse(localStorage.getItem('converse_history') || '[]');
-    history.push({
+    const record = {
       scenarioId: result.scenarioId,
       scorePercentage: result.scorePercentage,
+      recognizedIndicators: result.recognizedIndicators || [],
       missedIndicators: result.missedIndicators || [],
+      caught: result.caught,
+      missed: result.missed,
       verdict: result.verdict,
       date: Date.now()
-    });
+    };
+    history.push(record);
     localStorage.setItem('converse_history', JSON.stringify(history));
+
+    // Handle 3-Scenario Session Progress
+    if (this.sessionMode) {
+      this.sessionResults.push(result);
+      if (this.sessionIndex < 2) {
+        this.sessionIndex++;
+        this.loadScenario(this.sessionScenarios[this.sessionIndex]);
+        return;
+      } else {
+        // Complete 3-scenario session!
+        this.showSessionSummary();
+        return;
+      }
+    }
+
+    // Single Scenario Result Card
+    const resultView = document.getElementById('simulationResultView');
+    resultView.style.display = 'block';
 
     const verdictClass = result.verdict === 'SAFE' ? 'verdict-safe' : result.verdict === 'VULNERABLE' ? 'verdict-vulnerable' : 'verdict-compromised';
 
-    // Get adaptive next recommendation
+    // Generate Personalized Recommendations from actual history
+    let recommendations = [];
+    if (window.AdaptiveEngine && typeof window.AdaptiveEngine.generatePersonalizedRecommendations === 'function') {
+      recommendations = window.AdaptiveEngine.generatePersonalizedRecommendations(history, window.ConVerseState ? window.ConVerseState.currentPersona : 'student');
+    }
+
+    // Adaptive next recommendation
     let nextRecScenarioId = 'S01';
     if (window.ScenarioSelector) {
       const rec = window.ScenarioSelector.getAdaptiveRecommendation({
@@ -433,20 +646,36 @@ const SimulatorPage = {
           </div>
         </div>
 
+        <!-- Consequence Timeline -->
+        <div class="card" style="text-align: left; margin: 1.25rem 0; background: var(--bg-tertiary);">
+          <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: var(--accent-cyan); margin-bottom: 0.5rem;">Decision Timeline & Audit Trail</div>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            ${(result.events || []).map((ev, i) => `
+              <div style="display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.85rem;">
+                <span style="font-family: var(--font-mono); color: var(--text-muted);">${i + 1}.</span>
+                <span style="color: ${ev.good ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">
+                  ${ev.good ? '✓ Safe Action' : '✗ Risky Action'}
+                </span>
+                <span style="color: var(--text-secondary); margin-left: auto;">
+                  ${ev.tags && ev.tags.length > 0 ? `[${ev.tags.join(', ')}]` : ''}
+                </span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
         <div class="takeaway-box">
           <div class="takeaway-title">💡 Key Scam Lesson</div>
           <p style="font-size: 0.88rem; color: #E2E8F0; line-height: 1.5;">${result.takeaway}</p>
         </div>
 
-        ${result.missedIndicators && result.missedIndicators.length > 0 ? `
-          <div style="text-align: left; margin-bottom: 1.25rem;">
-            <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--accent-rose); font-weight: 700; margin-bottom: 0.4rem;">Missed Red Flags to Review:</div>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
-              ${result.missedIndicators.map(id => {
-                const info = (window.ConVerseData && window.ConVerseData.INDICATOR_CATALOGUE) ? window.ConVerseData.INDICATOR_CATALOGUE[id] : null;
-                return `<span class="indicator-tag-pill tag-${id.charAt(0).toLowerCase()}">${id}: ${info ? info.name : ''}</span>`;
-              }).join('')}
-            </div>
+        <!-- Personalized Recommendations -->
+        ${recommendations.length > 0 ? `
+          <div class="card" style="text-align: left; margin: 1.25rem 0; border-color: rgba(99, 102, 241, 0.4);">
+            <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.5rem;">Personalized Safety Profile Advice</div>
+            <ul style="padding-left: 1.2rem; font-size: 0.85rem; color: #CBD5E1; line-height: 1.5;">
+              ${recommendations.map(r => `<li style="margin-bottom: 0.35rem;">${r}</li>`).join('')}
+            </ul>
           </div>
         ` : ''}
 
@@ -459,6 +688,85 @@ const SimulatorPage = {
           </button>
           <button class="btn-secondary" onclick="SimulatorPage.renderScenarioList()">
             📋 All Scenarios
+          </button>
+        </div>
+      </div>
+    `;
+  },
+
+  showSessionSummary: function() {
+    document.getElementById('simulationActiveView').style.display = 'none';
+    document.getElementById('simulationResultView').style.display = 'none';
+    const sessionView = document.getElementById('sessionSummaryView');
+    sessionView.style.display = 'block';
+
+    const totalCaught = this.sessionResults.reduce((sum, r) => sum + r.caught, 0);
+    const totalMissed = this.sessionResults.reduce((sum, r) => sum + r.missed, 0);
+    const totalDecisions = totalCaught + totalMissed;
+    const sessionScorePct = totalDecisions > 0 ? Math.round((totalCaught / totalDecisions) * 100) : 0;
+
+    // Save 3-scenario session to converse_sessions
+    const sessions = JSON.parse(localStorage.getItem('converse_sessions') || '[]');
+    sessions.push({
+      date: Date.now(),
+      scenarios: this.sessionScenarios,
+      scorePercentage: sessionScorePct,
+      totalCaught,
+      totalMissed
+    });
+    // Keep last 10 sessions
+    localStorage.setItem('converse_sessions', JSON.stringify(sessions.slice(-10)));
+
+    const verdict = sessionScorePct === 100 ? 'SAFE' : sessionScorePct >= 50 ? 'VULNERABLE' : 'COMPROMISED';
+    const verdictClass = verdict === 'SAFE' ? 'verdict-safe' : verdict === 'VULNERABLE' ? 'verdict-vulnerable' : 'verdict-compromised';
+
+    sessionView.innerHTML = `
+      <div class="result-card">
+        <span class="result-verdict-badge ${verdictClass}">
+          ${verdict === 'SAFE' ? '🛡️ SESSION MASTERED: VIGILANT DEFENDER' : verdict === 'VULNERABLE' ? '⚠️ SESSION COMPLETE: PARTIALLY VULNERABLE' : '🚨 SESSION COMPLETE: ACTION REQUIRED'}
+        </span>
+
+        <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.25rem;">3-Scenario Training Session Complete</h2>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.25rem;">Completed: ${this.sessionScenarios.join(', ')}</p>
+
+        <div class="score-display">
+          <span class="score-num">${sessionScorePct}</span>
+          <span class="score-max">/100</span>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="stat-val caught">${totalCaught}</div>
+            <div class="stat-label">Total Caught Flags</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val missed">${totalMissed}</div>
+            <div class="stat-label">Total Traps Encountered</div>
+          </div>
+        </div>
+
+        <!-- Per-scenario breakdown -->
+        <div class="card" style="text-align: left; margin: 1.25rem 0; background: var(--bg-tertiary);">
+          <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: var(--accent-cyan); margin-bottom: 0.5rem;">Session Scenario Breakdown</div>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            ${this.sessionResults.map(r => `
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: rgba(0,0,0,0.2); border-radius: var(--radius-sm);">
+                <span style="font-weight: 700; font-family: var(--font-mono); color: #F8FAFC;">${r.scenarioId}</span>
+                <span style="font-family: var(--font-mono); font-weight: 700; color: ${r.scorePercentage >= 80 ? 'var(--accent-emerald)' : 'var(--accent-rose)'};">${r.scorePercentage}% (${r.verdict})</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="result-action-row">
+          <a href="#/test?type=post" class="next-step-btn" style="text-decoration: none;">
+            📝 Take Post-Test Assessment &rarr;
+          </a>
+          <a href="#/progress" class="btn-secondary" style="text-decoration: none;">
+            🏆 View Full Progress Dashboard
+          </a>
+          <button class="btn-secondary" onclick="SimulatorPage.renderScenarioList()">
+            📋 Explore All Scenarios
           </button>
         </div>
       </div>

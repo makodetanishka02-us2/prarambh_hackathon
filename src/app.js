@@ -1,5 +1,6 @@
 /**
- * ConVerse — Application Root & Client State Router
+ * ConVerse — Application Root & Client State Router (app.js)
+ * Problem Statement: PS-10 Financial Scam Simulator & Awareness Engine
  */
 
 window.ConVerseState = {
@@ -14,7 +15,8 @@ const App = {
     'simulator': window.SimulatorPage,
     'radar': window.RadarPage,
     'tips': window.TipsPage,
-    'progress': window.ProgressPage
+    'progress': window.ProgressPage,
+    'test': window.TestPage
   },
 
   init: function() {
@@ -58,7 +60,7 @@ const App = {
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
           <h2 style="font-size: 1.25rem; font-weight: 700;">Select Your Profile</h2>
-          <button id="closePersonaModal" class="icon-btn" style="min-width: 32px; min-height: 32px; width: 32px; height: 32px;">✕</button>
+          <button id="closePersonaModal" class="icon-btn" style="min-width: 32px; min-height: 32px; width: 32px; height: 32px;" aria-label="Close modal">✕</button>
         </div>
         <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Simulations and scam awareness are customized to your profile's most common fraud threats.</p>
         
@@ -137,7 +139,9 @@ const App = {
   }
 };
 
-window.App = App;
+if (typeof window !== 'undefined') {
+  window.App = App;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   App.init();

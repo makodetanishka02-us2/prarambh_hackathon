@@ -1,12 +1,14 @@
 /**
- * ConVerse — Dashboard Page
+ * ConVerse — Dashboard Page (dashboard.js)
+ * Problem Statement: PS-10 Financial Scam Simulator & Awareness Engine
  */
 
 const DashboardPage = {
   render: function(container) {
     const userPersona = window.ConVerseState ? window.ConVerseState.currentPersona : 'student';
     const personaData = (window.ConVerseData && window.ConVerseData.PERSONAS) ? window.ConVerseData.PERSONAS[userPersona] : { name: 'Student', avatar: '🎓' };
-    
+    const preTest = JSON.parse(localStorage.getItem('converse_pre_test') || 'null');
+
     container.innerHTML = `
       <div class="dashboard-view">
         <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.1));">
@@ -19,11 +21,20 @@ const DashboardPage = {
           </div>
           
           <div style="margin-top: 1.2rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <a href="#/simulator" class="next-step-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.95rem; width: auto;">
-              <span>🎮 Start Simulation</span>
+            <a href="#/simulator?session=true" class="next-step-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.95rem; width: auto; background: var(--accent-emerald);">
+              <span>⚡ Start 3-Scenario Session</span>
             </a>
+            ${!preTest ? `
+              <a href="#/test?type=pre" class="btn-secondary" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.95rem; width: auto; border-color: var(--accent-cyan);">
+                <span>📝 Take Baseline Pre-Test</span>
+              </a>
+            ` : `
+              <a href="#/simulator" class="btn-secondary" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.95rem; width: auto;">
+                <span>🎮 Explore Scenarios</span>
+              </a>
+            `}
             <a href="#/tips" class="btn-secondary" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.95rem; width: auto;">
-              <span>💡 Essential Tips</span>
+              <span>💡 Safety Rules</span>
             </a>
           </div>
         </div>
