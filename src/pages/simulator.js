@@ -13,7 +13,9 @@ import { createCard } from '../components/card.js';
 import { createChip } from '../components/chip.js';
 import { createBadge } from '../components/badge.js';
 import { showToast } from '../components/toast.js';
+import { emitRadarEvent } from '../engine/radar/radar-contract.js';
 import { CORE_CATEGORIES, REALISTIC_SCENARIOS } from '../data/initial-data.js';
+
 
 let activeScenario = null;
 let currentStepState = {
@@ -317,17 +319,31 @@ function renderActiveSandbox(wrapper, scenario, onExit) {
         setState({
           user: {
             ...state.user,
-            completedSimulations: [...completed, scenario.id],
-            awarenessScore: Math.min(100, state.user.awarenessScore + (choice.isSafe ? 15 : 5))
+            completedSimulations: [...completed, scenario.id]
           }
         });
       }
+
+      // Emit sim:choice_made into radar engine
+      const scenarioIndicators = scenario.categoryId === "upi" ? ["I1", "L5"] :
+        scenario.categoryId === "phishing" ? ["U2", "S1", "L1"] :
+        scenario.categoryId === "kyc" ? ["S4", "E1", "E6"] :
+        scenario.categoryId === "job" ? ["I4", "E2"] : ["U1", "I1"];
+
+      emitRadarEvent({
+        type: "sim:choice_made",
+        scenarioId: scenario.id,
+        indicators: scenarioIndicators,
+        outcome: choice.isSafe ? 1 : 0,
+        confidence: "fairly"
+      });
 
       showToast({
         title: choice.isSafe ? "Safe Choice" : "Warning Sign Missed",
         message: choice.isSafe ? "You successfully avoided the scam trap." : "Review the red flags to protect yourself next time.",
         type: choice.isSafe ? "safe" : "warn"
       });
+
     });
 
     optionsContainer.appendChild(choiceBtn);

@@ -122,5 +122,39 @@ export default {
 
   // Styleguide
   styleguide_title: "ਡਿਜ਼ਾਈਨ ਸਿਸਟਮ ਸਟਾਈਲਗਾਈਡ",
-  styleguide_subtitle: "ਮੁੜ ਵਰਤੋਂ ਯੋਗ ਕੰਪੋਨੈਂਟ, ਬਟਨ, ਕਾਰਡ ਅਤੇ ਖਾਕਾ।"
+  styleguide_subtitle: "ਮੁੜ ਵਰਤੋਂ ਯੋਗ ਕੰਪੋਨੈਂਟ, ਬਟਨ, ਕਾਰਡ ਅਤੇ ਖਾਕਾ।",
+
+  // Radar & Awareness Engine
+  radar_title: "ਧੋਖਾਧੜੀ ਖ਼ਤਰਾ ਅਤੇ ਜਾਗਰੂਕਤਾ ਰਡਾਰ",
+  radar_subtitle: "ਸੁਨੇਹੇ ਦੇ ਖ਼ਤਰੇ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ 6 ਮੁੱਖ ਪਹਿਲੂਆਂ ਵਿੱਚ ਆਪਣੀ ਜਾਗਰੂਕਤਾ ਟਰੈਕ ਕਰੋ।",
+  radar_mode_threat: "ਖ਼ਤਰਾ (Threat)",
+  radar_mode_awareness: "ਜਾਗਰੂਕਤਾ (Awareness)",
+  radar_mode_both: "ਦੋਵੇਂ (Both)",
+  radar_dim_urgency: "ਕਾਹਲ ਵਿਰੋਧ",
+  radar_dim_urgency_desc: "ਕੀ ਮੈਂ ਕਾਹਲ ਦੇ ਦਬਾਅ ਹੇਠ ਸ਼ਾਂਤ ਰਹਿੰਦਾ ਹਾਂ?",
+  radar_dim_sender: "ਭੇਜਣ ਵਾਲੇ ਦੀ ਪੁਸ਼ਟੀ",
+  radar_dim_sender_desc: "ਕੀ ਮੈਂ ਜਾਂਚ ਕਰਦਾ ਹਾਂ ਕਿ ਸੰਪਰਕ ਕੌਣ ਕਰ ਰਿਹਾ ਹੈ?",
+  radar_dim_link: "ਲਿੰਕ ਅਤੇ URL ਜਾਂਚ",
+  radar_dim_link_desc: "ਕੀ ਮੈਂ ਜਾਅਲੀ ਲਿੰਕਾਂ ਅਤੇ ਐਪਾਂ ਨੂੰ ਪਛਾਣਦਾ ਹਾਂ?",
+  radar_dim_information: "ਜਾਣਕਾਰੀ ਗੋਪਨੀਯਤਾ",
+  radar_dim_information_desc: "ਕੀ ਮੈਂ ਗੁਪਤ ਜਾਣਕਾਰੀ ਸੁਰੱਖਿਅਤ ਰੱਖਦਾ ਹਾਂ?",
+  radar_dim_emotion: "ਭਾਵਨਾਤਮਕ ਨਿਯੰਤਰਣ",
+  radar_dim_emotion_desc: "ਕੀ ਡਰ ਜਾਂ ਲਾਲਚ ਮੇਰੇ ਫੈਸਲੇ 'ਤੇ ਅਸਰ ਪਾਉਂਦਾ ਹੈ?",
+  radar_dim_reporting: "ਰਿਪੋਰਟ ਕਰਨ ਦੀ ਆਦਤ",
+  radar_dim_reporting_desc: "ਕੀ ਮੈਂ ਤੁਰੰਤ ਬਲਾਕ ਕਰਕੇ 1930 'ਤੇ ਰਿਪੋਰਟ ਕਰਦਾ ਹਾਂ?",
+  radar_table_dimension: "ਪਹਿਲੂ",
+  radar_table_threat: "ਸੁਨੇਹਾ ਖ਼ਤਰਾ",
+  radar_table_awareness: "ਮੇਰੀ ਜਾਗਰੂਕਤਾ",
+  radar_overall_threat: "ਕੁੱਲ ਖ਼ਤਰਾ ਪੱਧਰ",
+  radar_overall_awareness: "ਕੁੱਲ ਜਾਗਰੂਕਤਾ ਸਕੋਰ",
+  radar_band_high_risk: "ਉੱਚ ਖ਼ਤਰਾ",
+  radar_band_moderate: "ਦਰਮਿਆਨਾ",
+  radar_band_strong: "ਮਜ਼ਬੂਤ",
+  radar_weakest_heading: "ਮੁੱਖ ਸੁਧਾਰ ਖੇਤਰ",
+  radar_layer_threat_desc: "ਪੱਧਰ 1: ਇਹ ਸੁਨੇਹਾ ਕਿੰਨਾ ਖ਼ਤਰਨਾਕ ਹੈ?",
+  radar_layer_awareness_desc: "ਪੱਧਰ 2: ਤੁਹਾਡੀ ਜਾਗਰੂਕਤਾ ਕਿੰਨੀ ਮਜ਼ਬੂਤ ਹੈ?",
+  radar_accessible_table_caption: "ਛੇ ਸੁਰੱਖਿਆ ਪਹਿਲੂਆਂ ਵਿੱਚ ਧੋਖਾਧੜੀ ਖ਼ਤਰਾ ਅਤੇ ਜਾਗਰੂਕਤਾ ਸਕੋਰ",
+  radar_reset_btn: "ਰਡਾਰ ਰੀਸੈੱਟ ਕਰੋ",
+  radar_reset_confirm: "ਕੀ ਤੁਸੀਂ ਆਪਣੇ ਜਾਗਰੂਕਤਾ ਸਕੋਰ ਨੂੰ ਮੁੜ 50 ਬੇਸਲਾਈਨ 'ਤੇ ਲਿਆਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 };
+

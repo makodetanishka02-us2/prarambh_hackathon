@@ -122,5 +122,39 @@ export default {
 
   // Styleguide
   styleguide_title: "வடிவமைப்பு வழிகாட்டி",
-  styleguide_subtitle: "மீண்டும் பயன்படுத்தக்கூடிய கூறுகள், பொத்தான்கள் மற்றும் அட்டைகள்."
+  styleguide_subtitle: "மீண்டும் பயன்படுத்தக்கூடிய கூறுகள், பொத்தான்கள் மற்றும் அட்டைகள்.",
+
+  // Radar & Awareness Engine
+  radar_title: "மோசடி அச்சுறுத்தல் மற்றும் விழிப்புணர்வு ரேடார்",
+  radar_subtitle: "செய்தி அபாயத்தை ஆராய்ந்து 6 முக்கிய பரிமாணங்களில் உங்கள் விழிப்புணர்வை கண்காணிக்கவும்.",
+  radar_mode_threat: "அச்சுறுத்தல் (Threat)",
+  radar_mode_awareness: "விழிப்புணர்வு (Awareness)",
+  radar_mode_both: "இரண்டும் (Both)",
+  radar_dim_urgency: "அவசர எதிர்ப்பு",
+  radar_dim_urgency_desc: "அவசரப்படுத்தும்போது நான் நிதானமாக இருக்கிறேனா?",
+  radar_dim_sender: "அனுப்புநர் சரிபார்ப்பு",
+  radar_dim_sender_desc: "யார் தொடர்பு கொள்கிறார்கள் என்பதை சரிபார்க்கிறேனா?",
+  radar_dim_link: "இணைப்பு மற்றும் URL சரிபார்ப்பு",
+  radar_dim_link_desc: "போலி இணைப்புகளையும் செயலிகளையும் அடையாளம் காண்கிறேனா?",
+  radar_dim_information: "ரகசிய தகவல் பாதுகாப்பு",
+  radar_dim_information_desc: "ரகசிய தகவல்களை பாதுகாக்கிறேனா?",
+  radar_dim_emotion: "உணர்ச்சி கையாளுதல்",
+  radar_dim_emotion_desc: "பயம் அல்லது ஆசை என் முடிவை பாதிக்கிறதா?",
+  radar_dim_reporting: "புகாரளிக்கும் பழக்கம்",
+  radar_dim_reporting_desc: "உடனடியாக பிளாக் செய்து 1930 இல் புகாரளிக்கிறேனா?",
+  radar_table_dimension: "பரிமாணம்",
+  radar_table_threat: "செய்தி அச்சுறுத்தல்",
+  radar_table_awareness: "என் விழிப்புணர்வு",
+  radar_overall_threat: "மொத்த அச்சுறுத்தல் அபாயம்",
+  radar_overall_awareness: "மொத்த விழிப்புணர்வு மதிப்பெண்",
+  radar_band_high_risk: "அதிக அபாயம்",
+  radar_band_moderate: "மிதமான",
+  radar_band_strong: "வலுவான",
+  radar_weakest_heading: "முக்கிய முன்னேற்றப் பகுதி",
+  radar_layer_threat_desc: "அடுக்கு அ: இந்த செய்தி எவ்வளவு ஆபத்தானது?",
+  radar_layer_awareness_desc: "அடுக்கு ஆ: உங்கள் விழிப்புணர்வு திறன் எவ்வளவு வலிமையானது?",
+  radar_accessible_table_caption: "ஆறு பாதுகாப்பு பரிமாணங்களில் மோசடி அபாயம் மற்றும் விழிப்புணர்வு மதிப்பெண்கள்",
+  radar_reset_btn: "ரேடார் மீட்டமை",
+  radar_reset_confirm: "விழிப்புணர்வு மதிப்பெண்களை 50 அடிப்படை நிலைக்கு மீட்டமைக்க விரும்புகிறீர்களா?"
 };
+

@@ -122,5 +122,39 @@ export default {
 
   // Styleguide
   styleguide_title: "कनवर्स डिजाइन सिस्टम स्टाइलगाइड",
-  styleguide_subtitle: "पुनः प्रयोज्य कंपोनेंट टोकन, बटन, कार्ड, बैज और संचार चैनल कंपोनेंट्स।"
+  styleguide_subtitle: "पुनः प्रयोज्य कंपोनेंट टोकन, बटन, कार्ड, बैज और संचार चैनल कंपोनेंट्स।",
+
+  // Radar & Awareness Engine
+  radar_title: "धोखाधड़ी जोखिम एवं जागरूकता रडार",
+  radar_subtitle: "संदेश के जोखिम की जांच करें और 6 मुख्य आयामों में अपने व्यक्तिगत धोखाधड़ी-जागरूकता कौशल को ट्रैक करें।",
+  radar_mode_threat: "खतरा (Threat)",
+  radar_mode_awareness: "जागरूकता (Awareness)",
+  radar_mode_both: "दोनों (Both)",
+  radar_dim_urgency: "जल्दबाजी प्रतिरोध",
+  radar_dim_urgency_desc: "क्या मैं तुरंत कार्रवाई के दबाव में शांत रहता हूँ?",
+  radar_dim_sender: "प्रेषक सत्यापन",
+  radar_dim_sender_desc: "क्या मैं जांचता हूँ कि वास्तव में कौन संपर्क कर रहा है?",
+  radar_dim_link: "लिंक एवं यूआरएल जांच",
+  radar_dim_link_desc: "क्या मैं नकली लिंक, ऐप्स और डोमेन पहचानता हूँ?",
+  radar_dim_information: "जानकारी साझाकरण",
+  radar_dim_information_desc: "क्या मैं गोपनीय जानकारी सुरक्षित रखता हूँ?",
+  radar_dim_emotion: "भावनात्मक हेरफेर",
+  radar_dim_emotion_desc: "क्या भय या लालच मेरे निर्णय को प्रभावित करता है?",
+  radar_dim_reporting: "रिपोर्टिंग आदत",
+  radar_dim_reporting_desc: "क्या मैं तुरंत ब्लॉक, 1930 पर रिपोर्ट और परिवार को सूचित करता हूँ?",
+  radar_table_dimension: "आयाम",
+  radar_table_threat: "संदेश खतरा",
+  radar_table_awareness: "मेरी जागरूकता",
+  radar_overall_threat: "कुल खतरा जोखिम",
+  radar_overall_awareness: "कुल जागरूकता स्कोर",
+  radar_band_high_risk: "उच्च जोखिम",
+  radar_band_moderate: "मध्यम",
+  radar_band_strong: "मजबूत",
+  radar_weakest_heading: "मुख्य सुधार क्षेत्र",
+  radar_layer_threat_desc: "लेयर ए: यह संदेश कितना जोखिम भरा है?",
+  radar_layer_awareness_desc: "लेयर बी: आपका धोखाधड़ी-जागरूकता कौशल कितना मजबूत है?",
+  radar_accessible_table_caption: "छह रक्षा आयामों में धोखाधड़ी जोखिम और उपयोगकर्ता जागरूकता स्कोर",
+  radar_reset_btn: "रडार बेसलाइन रीसेट करें",
+  radar_reset_confirm: "क्या आप अपने जागरूकता स्कोर को वापस 50 बेसलाइन पर रीसेट करना चाहते हैं?"
 };
+

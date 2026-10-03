@@ -859,3 +859,202 @@
   margin-bottom: var(--space-xs);
   color: var(--color-text-muted);
 }
+
+/* ==========================================================================
+   11. RADAR & AWARENESS ENGINE COMPONENT (.cv-radar-container)
+   Editorial styling, dual-layer spider chart, accessible semantic table
+   ========================================================================== */
+.cv-radar-container {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 100%;
+}
+
+.cv-radar-compact {
+  padding: var(--space-sm);
+}
+
+.cv-radar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.cv-radar-controls {
+  display: inline-flex;
+  background-color: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  gap: 2px;
+}
+
+.cv-radar-mode-btn {
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--radius-sm) - 2px);
+  padding: 6px 14px;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  min-height: 36px;
+  min-width: 68px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.cv-radar-mode-btn:hover {
+  color: var(--color-text);
+}
+
+.cv-radar-mode-btn.active {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-xs);
+}
+
+.cv-radar-mode-btn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 1px;
+}
+
+.cv-radar-legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.cv-radar-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cv-radar-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.cv-radar-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .cv-radar-layout {
+    grid-template-columns: minmax(280px, 340px) 1fr;
+  }
+}
+
+.cv-radar-svg-wrap {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
+}
+
+.cv-radar-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.cv-radar-axis-label {
+  font-family: var(--font-family-base);
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  fill: var(--color-text);
+  user-select: none;
+}
+
+.cv-radar-polygon {
+  transition: points 0.6s cubic-bezier(0.4, 0, 0.2, 1), fill 0.3s ease, stroke 0.3s ease;
+}
+
+.cv-radar-point {
+  transition: cx 0.6s cubic-bezier(0.4, 0, 0.2, 1), cy 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-radar-polygon,
+  .cv-radar-point,
+  .cv-radar-mode-btn {
+    transition: none !important;
+  }
+}
+
+.cv-radar-summary-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.cv-radar-stat-card {
+  background-color: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.cv-radar-table-wrap {
+  overflow-x: auto;
+  margin-top: var(--space-xs);
+  border-top: 1px solid var(--color-border-subtle);
+  padding-top: var(--space-sm);
+}
+
+.cv-radar-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-xs);
+  text-align: left;
+}
+
+.cv-radar-table th {
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cv-radar-table td {
+  padding: 10px 10px;
+  border-bottom: 1px solid var(--color-border-subtle);
+  color: var(--color-text);
+}
+
+.cv-radar-table tr:hover td {
+  background-color: var(--color-bg-subtle);
+}
+
+.cv-radar-cell-threat {
+  font-weight: var(--font-weight-semibold);
+}
+
+.cv-radar-cell-awareness {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-success-text);
+}
+

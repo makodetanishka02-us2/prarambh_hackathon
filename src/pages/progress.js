@@ -12,6 +12,8 @@ import { createButton } from '../components/button.js';
 import { createCard } from '../components/card.js';
 import { createBadge } from '../components/badge.js';
 import { createProgressBar } from '../components/progress.js';
+import { createRadarView } from '../components/radar-view.js';
+import { getRadarState, getAwarenessScore, getWeakestDimensions } from '../engine/radar/radar-contract.js';
 import { REALISTIC_SCENARIOS } from '../data/initial-data.js';
 
 export function renderProgress(container) {
@@ -23,6 +25,9 @@ export function renderProgress(container) {
   const state = getState();
   const user = state.user || {};
   const completedIds = user.completedSimulations || [];
+  const radarState = getRadarState();
+  const awarenessScore = getAwarenessScore(radarState.awareness);
+  const weakest = getWeakestDimensions(radarState.awareness, 2);
 
   // Header
   const headerWrap = document.createElement("div");
@@ -33,61 +38,35 @@ export function renderProgress(container) {
   `;
   pageWrap.appendChild(headerWrap);
 
-  // Check if any simulations have been completed
-  if (completedIds.length === 0) {
-    // Honest Empty State
-    const emptyCard = createCard({
-      title: t("progress_empty_title"),
-      subtitle: t("progress_empty_desc"),
-      icon: "ℹ️",
-      body: `
-        <p class="text-sm" style="margin-bottom: 14px;">
-          Your awareness score, category defense breakdown, and simulation history will be recorded locally as you practice scenarios.
-        </p>
-      `,
-      footer: `
-        <a href="#simulator" class="cv-btn cv-btn-primary cv-btn-md" style="text-decoration: none;">
-          ${t("hero_cta_start")} →
-        </a>
-      `
-    });
-    pageWrap.appendChild(emptyCard);
-  } else {
-    // Score & Readiness Profile
+  // 1. Radar & 6-Dimension Awareness Engine View
+  const radarSection = document.createElement("section");
+  radarSection.style.marginBottom = "24px";
+  radarSection.innerHTML = `
+    <div class="flex items-center justify-between" style="margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+      <div>
+        <h2 style="font-size: 18px; margin: 0 0 2px 0;">${t("radar_title")}</h2>
+        <p class="text-xs text-muted" style="margin: 0;">${t("radar_subtitle")}</p>
+      </div>
+    </div>
+  `;
+
+  const radarView = createRadarView({
+    initialMode: "awareness",
+    showTable: true,
+    showControls: true,
+    showSummary: true
+  });
+  radarSection.appendChild(radarView);
+  pageWrap.appendChild(radarSection);
+
+  // 2. Completed Scenarios Section
+  if (completedIds.length > 0) {
     const completedScenarios = REALISTIC_SCENARIOS.filter(s => completedIds.includes(s.id));
-    const scoreVal = user.awarenessScore || 50;
 
-    const profileCard = createCard({
-      title: `Defense Awareness Score: ${scoreVal} / 100`,
-      subtitle: `${completedIds.length} of ${REALISTIC_SCENARIOS.length} Available Scenarios Completed`,
-      badge: createBadge({ text: `${completedIds.length} COMPLETED`, variant: "safe" }),
-      body: `
-        <div style="margin: 8px 0 16px 0;">
-          <div class="flex items-center justify-between text-xs text-muted" style="margin-bottom: 4px;">
-            <span>Overall Readiness</span>
-            <span>${scoreVal} / 100</span>
-          </div>
-          <div class="cv-progress-track">
-            <div class="cv-progress-bar cv-progress-bar-safe" style="width: ${scoreVal}%;"></div>
-          </div>
-        </div>
-      `,
-      footer: `
-        <div class="flex items-center justify-between w-full">
-          <span class="text-xs text-muted">Stored locally on this device</span>
-          <a href="#simulator" class="cv-btn cv-btn-secondary cv-btn-sm" style="text-decoration: none;">
-            Practice More Scenarios →
-          </a>
-        </div>
-      `,
-      highlight: "safe"
-    });
-    pageWrap.appendChild(profileCard);
-
-    // List of Completed Scenarios
     const historySection = document.createElement("section");
+    historySection.style.marginBottom = "24px";
     historySection.innerHTML = `
-      <h2 style="font-size: 17px; margin-bottom: 8px;">Completed Scenarios</h2>
+      <h2 style="font-size: 17px; margin-bottom: 8px;">Completed Scenarios (${completedIds.length})</h2>
     `;
     const historyGrid = document.createElement("div");
     historyGrid.className = "grid-cols-2";
@@ -100,7 +79,7 @@ export function renderProgress(container) {
         body: `<p class="text-xs" style="margin: 0;">${sc.shortDescription}</p>`,
         footer: `
           <a href="#simulator" class="cv-btn cv-btn-outline cv-btn-sm" style="text-decoration: none; width: 100%; text-align: center;">
-            Review Scenario
+            Practice Again
           </a>
         `
       });
@@ -111,7 +90,7 @@ export function renderProgress(container) {
     pageWrap.appendChild(historySection);
   }
 
-  // Category Practice Matrix
+  // 3. Category Practice Matrix
   const matrixSection = document.createElement("section");
   matrixSection.innerHTML = `
     <h2 style="font-size: 17px; margin-bottom: 4px;">${t("progress_vulnerability_radar")}</h2>
@@ -149,3 +128,4 @@ export function renderProgress(container) {
 
   container.appendChild(pageWrap);
 }
+

@@ -122,5 +122,39 @@ export default {
 
   // Styleguide
   styleguide_title: "ConVerse Design System & Component Library",
-  styleguide_subtitle: "Clean editorial tokens, rectangular buttons, semantic status tags, and simulator channel components."
+  styleguide_subtitle: "Clean editorial tokens, rectangular buttons, semantic status tags, and simulator channel components.",
+
+  // Radar & Awareness Engine
+  radar_title: "Scam Threat & Awareness Radar",
+  radar_subtitle: "Inspect message risk and track your personal scam-awareness skills across 6 core dimensions.",
+  radar_mode_threat: "Threat",
+  radar_mode_awareness: "Awareness",
+  radar_mode_both: "Both",
+  radar_dim_urgency: "Urgency Resistance",
+  radar_dim_urgency_desc: "Do I stay calm when pushed to act fast?",
+  radar_dim_sender: "Sender Verification",
+  radar_dim_sender_desc: "Do I check who is really contacting me?",
+  radar_dim_link: "Link & URL Checking",
+  radar_dim_link_desc: "Do I notice fake links, apps and domains?",
+  radar_dim_information: "Information Sharing",
+  radar_dim_information_desc: "Do I keep secrets and refuse to pay to earn?",
+  radar_dim_emotion: "Emotional Manipulation",
+  radar_dim_emotion_desc: "Do fear, greed, love or sympathy cloud my judgement?",
+  radar_dim_reporting: "Reporting Habit",
+  radar_dim_reporting_desc: "Do I verify, block, report and tell family?",
+  radar_table_dimension: "Dimension",
+  radar_table_threat: "Message Threat",
+  radar_table_awareness: "My Awareness",
+  radar_overall_threat: "Overall Threat Risk",
+  radar_overall_awareness: "Overall Awareness Score",
+  radar_band_high_risk: "High Risk",
+  radar_band_moderate: "Moderate",
+  radar_band_strong: "Strong",
+  radar_weakest_heading: "Key Focus Dimension",
+  radar_layer_threat_desc: "Layer A: How risky is this incoming message?",
+  radar_layer_awareness_desc: "Layer B: How strong is your scam-awareness skill?",
+  radar_accessible_table_caption: "Scam threat risk and user awareness scores across six defense dimensions",
+  radar_reset_btn: "Reset Radar Baseline",
+  radar_reset_confirm: "Are you sure you want to reset your awareness scores back to the 50 baseline?"
 };
+

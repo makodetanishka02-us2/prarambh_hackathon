@@ -122,5 +122,39 @@ export default {
 
   // Styleguide
   styleguide_title: "ડિઝાઇન સિસ્ટમ સ્ટાઇલગાઇડ",
-  styleguide_subtitle: "પુનઃઉપયોગી બટનો, કાર્ડ્સ, બેજ અને લેઆઉટ."
+  styleguide_subtitle: "પુનઃઉપયોગી બટનો, કાર્ડ્સ, બેજ અને લેઆઉટ.",
+
+  // Radar & Awareness Engine
+  radar_title: "છેતરપિંડી જોખમ અને જાગૃતિ રડાર",
+  radar_subtitle: "સંદેશના જોખમની ચકાસણી કરો અને 6 મુખ્ય બાબતોમાં તમારી જાગૃતિ તપાસો.",
+  radar_mode_threat: "જોખમ (Threat)",
+  radar_mode_awareness: "જાગૃતિ (Awareness)",
+  radar_mode_both: "બંને (Both)",
+  radar_dim_urgency: "ઉતાવળ પ્રતિકાર",
+  radar_dim_urgency_desc: "ઉતાવળના દબાણમાં હું શાંત રહું છું?",
+  radar_dim_sender: "મોકલનારની ચકાસણી",
+  radar_dim_sender_desc: "સંપર્ક કરનાર સાચો છે કે નહીં તે તપાસું છું?",
+  radar_dim_link: "લિંક અને URL ચકાસણી",
+  radar_dim_link_desc: "હું નકલી લિંક્સ અને એપ્સ ઓળખું છું?",
+  radar_dim_information: "માહિતી ગોપનીયતા",
+  radar_dim_information_desc: "હું ગુપ્ત માહિતી સુરક્ષિત રાખું છું?",
+  radar_dim_emotion: "ભાવનાત્મક નિયંત્રણ",
+  radar_dim_emotion_desc: "ડર કે લાલચ મારા નિર્ણય પર અસર કરે છે?",
+  radar_dim_reporting: "ફરિયાદ કરવાની ટેવ",
+  radar_dim_reporting_desc: "હું તરત જ બ્લોક કરીને ૧૯૩૦ પર ફરિયાદ કરું છું?",
+  radar_table_dimension: "વિભાગ",
+  radar_table_threat: "સંદેશ જોખમ",
+  radar_table_awareness: "મારી જાગૃતિ",
+  radar_overall_threat: "કુલ જોખમ સ્તર",
+  radar_overall_awareness: "કુલ જાગૃતિ સ્કોર",
+  radar_band_high_risk: "ઉચ્ચ જોખમ",
+  radar_band_moderate: "મધ્યમ",
+  radar_band_strong: "મજબૂત",
+  radar_weakest_heading: "મુખ્ય સુધારા ક્ષેત્ર",
+  radar_layer_threat_desc: "સ્તર ૧: આ સંદેશ કેટલો જોખમી છે?",
+  radar_layer_awareness_desc: "સ્તર ૨: તમારી જાગૃતિ કેટલી મજબૂત છે?",
+  radar_accessible_table_caption: "છ સુરક્ષા વિભાગોમાં છેતરપિંડી જોખમ અને જાગૃતિ સ્કોર",
+  radar_reset_btn: "રડાર રીસેટ કરો",
+  radar_reset_confirm: "શું તમે તમારા જાગૃતિ સ્કોરને ફરીથી ૫૦ બેઝલાઇન પર લાવવા માંગો છો?"
 };
+

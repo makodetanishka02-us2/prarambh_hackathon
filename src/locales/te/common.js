@@ -122,5 +122,39 @@ export default {
 
   // Styleguide
   styleguide_title: "డిజైన్ సిస్టమ్ స్టైల్‌గైడ్",
-  styleguide_subtitle: "పునర్వినియోగ భాగాలు, బటన్‌లు, కార్డులు మరియు ఛానెల్ భాగాలు."
+  styleguide_subtitle: "పునర్వినియోగ భాగాలు, బటన్‌లు, కార్డులు మరియు ఛానెల్ భాగాలు.",
+
+  // Radar & Awareness Engine
+  radar_title: "మోసం ముప్పు మరియు అవగాహన రాడార్",
+  radar_subtitle: "సందేశం యొక్క ప్రమాదాన్ని పరిశీలించి 6 ముఖ్య విభాగాలలో మీ అవగాహనను ట్రాక్ చేయండి.",
+  radar_mode_threat: "ముప్పు (Threat)",
+  radar_mode_awareness: "అవగాహన (Awareness)",
+  radar_mode_both: "రెండూ (Both)",
+  radar_dim_urgency: "ఆందోళన నిరోధకత",
+  radar_dim_urgency_desc: "తొందరపెట్టినప్పుడు నేను ప్రశాంతంగా ఉంటానా?",
+  radar_dim_sender: "పంపినవారి ధృవీకరణ",
+  radar_dim_sender_desc: "సంప్రదించేది ఎవరో నేను సరిచూస్తానా?",
+  radar_dim_link: "లింక్ మరియు URL తనిఖీ",
+  radar_dim_link_desc: "నకిలీ లింకులు మరియు యాప్‌లను గుర్తిస్తానా?",
+  radar_dim_information: "సమాచార భద్రత",
+  radar_dim_information_desc: "రహస్య సమాచారాన్ని భద్రంగా ఉంచుతానా?",
+  radar_dim_emotion: "భావోద్వేగ నియంత్రణ",
+  radar_dim_emotion_desc: "భయం లేదా అత్యాశ నా నిర్ణయాన్ని ప్రభావితం చేస్తుందా?",
+  radar_dim_reporting: "ఫిర్యాదు చేసే అలవాటు",
+  radar_dim_reporting_desc: "వెంటనే బ్లాక్ చేసి 1930 కు ఫిర్యాదు చేస్తానా?",
+  radar_table_dimension: "విభాగం",
+  radar_table_threat: "సందేశం ముప్పు",
+  radar_table_awareness: "నా అవగాహన",
+  radar_overall_threat: "మొత్తం ముప్పు స్థాయి",
+  radar_overall_awareness: "మొత్తం అవగాహన స్కోరు",
+  radar_band_high_risk: "అధిక ప్రమాదం",
+  radar_band_moderate: "మితమైన",
+  radar_band_strong: "బలమైన",
+  radar_weakest_heading: "ముఖ్యంగా మెరుగుపడాల్సిన విభాగం",
+  radar_layer_threat_desc: "లేయర్ 1: ఈ సందేశం ఎంత ప్రమాదకరమైనది?",
+  radar_layer_awareness_desc: "లేయర్ 2: మీ అవగాహన నైపుణ్యం ఎంత బలంగా ఉంది?",
+  radar_accessible_table_caption: "ఆరు రక్షణ విభాగాలలో మోసం ప్రమాదం మరియు అవగాహన స్కోర్లు",
+  radar_reset_btn: "రాడార్ రీసెట్ చేయండి",
+  radar_reset_confirm: "మీ అవగాహన స్కోర్లను 50 బేస్‌లైన్‌కు రీసెట్ చేయాలనుకుంటున్నారా?"
 };
+

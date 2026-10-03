@@ -236,5 +236,97 @@ export function renderStyleguide(container) {
   });
   pageWrap.appendChild(toastCard);
 
+  // 9. Radar & Awareness Engine Component (Phase 2 by Ananya)
+  const radarSection = document.createElement("section");
+  radarSection.style.marginTop = "24px";
+
+  const radarView = createRadarView({
+    initialMode: "both",
+    showTable: true,
+    showControls: true,
+    showSummary: true
+  });
+
+  const eventTesterWrap = document.createElement("div");
+  eventTesterWrap.style.marginTop = "16px";
+  eventTesterWrap.style.padding = "12px";
+  eventTesterWrap.style.background = "var(--color-bg-subtle)";
+  eventTesterWrap.style.borderRadius = "var(--radius-md)";
+  eventTesterWrap.style.border = "1px solid var(--color-border)";
+  eventTesterWrap.innerHTML = `
+    <div class="text-xs text-bold" style="margin-bottom: 8px;">Live Radar Event Tester:</div>
+    <div class="flex items-center gap-xs" style="flex-wrap: wrap;">
+      <button id="test-scan-btn" class="cv-btn cv-btn-danger cv-btn-sm">
+        Trigger scan:completed (U1 + I1)
+      </button>
+      <button id="test-sim-safe-btn" class="cv-btn cv-btn-safe cv-btn-sm">
+        Trigger sim:choice_made (Safe)
+      </button>
+      <button id="test-action-report-btn" class="cv-btn cv-btn-primary cv-btn-sm">
+        Trigger action:taken (Report 1930)
+      </button>
+      <button id="test-reset-radar-btn" class="cv-btn cv-btn-outline cv-btn-sm">
+        Reset Radar Baseline (50)
+      </button>
+    </div>
+  `;
+
+  eventTesterWrap.querySelector("#test-scan-btn").addEventListener("click", () => {
+    emitRadarEvent({
+      type: "scan:completed",
+      indicators: ["U1", "I1"]
+    });
+    showToast({
+      title: "Radar Event Emitted",
+      message: "scan:completed (U1 + I1) -> Threat calculated with PIN override",
+      type: "danger"
+    });
+  });
+
+  eventTesterWrap.querySelector("#test-sim-safe-btn").addEventListener("click", () => {
+    emitRadarEvent({
+      type: "sim:choice_made",
+      indicators: ["U2", "L1"],
+      outcome: 1,
+      confidence: "certain"
+    });
+    showToast({
+      title: "Radar Event Emitted",
+      message: "sim:choice_made (outcome: 1, certain) -> Awareness updated",
+      type: "safe"
+    });
+  });
+
+  eventTesterWrap.querySelector("#test-action-report-btn").addEventListener("click", () => {
+    emitRadarEvent({
+      type: "action:taken",
+      action: "report",
+      confidence: "fairly"
+    });
+    showToast({
+      title: "Radar Event Emitted",
+      message: "action:taken (Report 1930) -> Reporting dimension updated",
+      type: "info"
+    });
+  });
+
+  eventTesterWrap.querySelector("#test-reset-radar-btn").addEventListener("click", () => {
+    resetRadarState();
+    showToast({
+      title: "Radar Reset",
+      message: "All 6 dimensions restored to 50 baseline.",
+      type: "info"
+    });
+  });
+
+  const radarCard = createCard({
+    title: "9. Threat & Awareness Radar (.cv-radar-container)",
+    subtitle: "Dual-layer spider chart & accessible data table (Phase 2 by Ananya)",
+    body: radarView
+  });
+  radarCard.appendChild(eventTesterWrap);
+  pageWrap.appendChild(radarCard);
+
   container.appendChild(pageWrap);
 }
+

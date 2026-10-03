@@ -4,25 +4,23 @@
  * Foundation Owner: Tanishka
  */
 
+import { initRadarState, resetRadarState, getRadarState, getAwarenessScore } from '../engine/radar/radar-contract.js';
+
 const STORAGE_KEY = 'converse_app_state_v1';
 
 const defaultState = {
   // User Awareness Profile & Progress
   user: {
     name: "Citizen Defender",
-    awarenessScore: 68,
+    awarenessScore: 50,
     level: "Vigilant Scout",
-    completedSimulations: ["sim-upi-qr-1", "sim-electricity-bill-1"],
-    earnedBadges: [
-      { id: "badge-first-defense", name: "First Defense", icon: "🛡️", desc: "Completed your first scam simulation" },
-      { id: "badge-qr-master", name: "QR Trap Spotter", icon: "🔍", desc: "Successfully caught a fake merchant QR code" },
-      { id: "badge-otp-guardian", name: "OTP Guardian", icon: "🔒", desc: "Never shared an OTP with an imposter" }
-    ],
+    completedSimulations: [],
+    earnedBadges: [],
     vulnerabilities: {
-      upi: 85,
-      phishingSms: 70,
-      fakeCalls: 60,
-      jobFraud: 75,
+      upi: 50,
+      phishingSms: 50,
+      fakeCalls: 50,
+      jobFraud: 50,
       investmentScam: 50
     }
   },
@@ -58,6 +56,10 @@ const subscribers = new Map();
  * Initialize state from localStorage or default
  */
 export function initState() {
+  initRadarState();
+  const currentRadar = getRadarState();
+  const dynamicScore = getAwarenessScore(currentRadar.awareness);
+
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
@@ -65,14 +67,22 @@ export function initState() {
       state = {
         ...defaultState,
         ...parsed,
-        user: { ...defaultState.user, ...(parsed.user || {}) },
+        user: { ...defaultState.user, ...(parsed.user || {}), awarenessScore: dynamicScore },
         settings: { ...defaultState.settings, ...(parsed.settings || {}) },
         simulator: { ...defaultState.simulator, ...(parsed.simulator || {}) }
+      };
+    } else {
+      state = {
+        ...defaultState,
+        user: { ...defaultState.user, awarenessScore: dynamicScore }
       };
     }
   } catch (err) {
     console.warn('ConVerse state: Unable to parse localStorage state, using default.', err);
-    state = { ...defaultState };
+    state = {
+      ...defaultState,
+      user: { ...defaultState.user, awarenessScore: dynamicScore }
+    };
   }
   return state;
 }
@@ -116,11 +126,12 @@ export function setState(updater) {
  * Reset progress and training history
  */
 export function resetProgress() {
+  resetRadarState();
   setState({
     user: {
       ...defaultState.user,
-      awarenessScore: 20,
-      level: "Novice Learner",
+      awarenessScore: 50,
+      level: "Vigilant Scout",
       completedSimulations: [],
       earnedBadges: []
     },

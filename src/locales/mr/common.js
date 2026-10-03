@@ -122,5 +122,39 @@ export default {
 
   // Styleguide
   styleguide_title: "कन्व्हर्स डिझाइन सिस्टीम स्टाईलगाईड",
-  styleguide_subtitle: "पुनर्वापरयोग्य घटक, बटणे, कार्डे, बॅजेस आणि चॅनेल घटक."
+  styleguide_subtitle: "पुनर्वापरयोग्य घटक, बटणे, कार्डे, बॅजेस आणि चॅनेल घटक.",
+
+  // Radar & Awareness Engine
+  radar_title: "फसवणूक धोका आणि जागरूकता रडार",
+  radar_subtitle: "संदेशातील धोक्याची तपासणी करा आणि ६ मुख्य घटकांमध्ये तुमची जागरूकता तपासा.",
+  radar_mode_threat: "धोका (Threat)",
+  radar_mode_awareness: "जागरूकता (Awareness)",
+  radar_mode_both: "दोन्ही (Both)",
+  radar_dim_urgency: "घाईगडबड प्रतिकार",
+  radar_dim_urgency_desc: "घाईच्या दबावाखाली मी शांत राहतो का?",
+  radar_dim_sender: "प्रेषक पडताळणी",
+  radar_dim_sender_desc: "संपर्क करणारा खरा आहे का हे मी तपासतो का?",
+  radar_dim_link: "लिंक व URL पडताळणी",
+  radar_dim_link_desc: "मी खोट्या लिंक्स आणि ॲप्स ओळखतो का?",
+  radar_dim_information: "माहिती गोपनीयता",
+  radar_dim_information_desc: "मी गोपनीय माहिती सुरक्षित ठेवतो का?",
+  radar_dim_emotion: "भावनिक प्रभाव",
+  radar_dim_emotion_desc: "भीती किंवा आमिषाने माझ्या निर्णयावर परिणाम होतो का?",
+  radar_dim_reporting: "तक्रार नोंदवण्याची सवय",
+  radar_dim_reporting_desc: "मी त्वरित ब्लॉक, १९३० वर तक्रार व कुटुंबाला सांगतो का?",
+  radar_table_dimension: "घटक (Dimension)",
+  radar_table_threat: "संदेश धोका",
+  radar_table_awareness: "माझी जागरूकता",
+  radar_overall_threat: "एकूण धोका स्तर",
+  radar_overall_awareness: "एकूण जागरूकता गुण",
+  radar_band_high_risk: "उच्च धोका",
+  radar_band_moderate: "मध्यम",
+  radar_band_strong: "मजबूत",
+  radar_weakest_heading: "सुधारणेसाठी मुख्य क्षेत्र",
+  radar_layer_threat_desc: "स्तर अ: हा संदेश किती धोकादायक आहे?",
+  radar_layer_awareness_desc: "स्तर ब: तुमचे जागरूकता कौशल्य किती मजबूत आहे?",
+  radar_accessible_table_caption: "सहा संरक्षण घटकांमधील फसवणूक धोका आणि वापरकर्ता जागरूकता गुण",
+  radar_reset_btn: "रडार बेसलाइन रीसेट करा",
+  radar_reset_confirm: "तुम्हाला तुमचे जागरूकता गुण ५० च्या मूळ पातळीवर रीसेट करायचे आहेत का?"
 };
+
