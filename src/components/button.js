@@ -1,7 +1,7 @@
 /**
  * ConVerse Shared UI — Button Component
  * PS-10: Financial Scam Simulator & Awareness Engine
- * Foundation Owner: Tanishka
+ * Foundation & UI Owner: Tanishka
  */
 
 /**
@@ -9,7 +9,7 @@
  * @param {Object} options
  * @param {string} [options.text=""] Button label text
  * @param {string} [options.icon=""] HTML or emoji icon
- * @param {"primary"|"secondary"|"outline"|"ghost"|"safe"|"warn"|"danger"} [options.variant="primary"]
+ * @param {"primary"|"secondary"|"outline"|"ghost"|"safe"|"danger"} [options.variant="primary"]
  * @param {"sm"|"md"|"lg"} [options.size="md"]
  * @param {"button"|"submit"|"reset"} [options.type="button"]
  * @param {Function} [options.onClick] Click event handler
@@ -39,15 +39,15 @@ export function createButton({
 
   if (id) btn.id = id;
   if (ariaLabel) btn.setAttribute("aria-label", ariaLabel);
-  if (disabled) btn.disabled = true;
-
-  if (icon && !text) {
-    btn.classList.add("cv-btn-icon-only");
+  if (disabled) {
+    btn.disabled = true;
+    btn.setAttribute("aria-disabled", "true");
   }
 
   if (icon) {
     const iconSpan = document.createElement("span");
     iconSpan.className = "cv-btn-icon";
+    iconSpan.setAttribute("aria-hidden", "true");
     iconSpan.innerHTML = icon;
     btn.appendChild(iconSpan);
   }

@@ -1,7 +1,7 @@
 /**
  * ConVerse Design System — Base CSS
  * PS-10: Financial Scam Simulator & Awareness Engine
- * Foundation Owner: Tanishka
+ * Foundation & UI Owner: Tanishka
  */
 
 /* --------------------------------------------------------------------------
@@ -23,7 +23,7 @@ html {
 
 body {
   font-family: var(--font-family-base);
-  background-color: var(--color-background);
+  background-color: var(--color-bg);
   color: var(--color-text);
   line-height: var(--line-height-normal);
   font-size: var(--font-size-base);
@@ -38,65 +38,61 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   Multilingual Script Specific Line Heights & Font Adjustments
+   Indian Regional Scripts Typography Adjustments
    -------------------------------------------------------------------------- */
 html[lang="hi"], html[lang="mr"] {
   --line-height-normal: 1.6;
-  --line-height-snug: 1.45;
 }
 
 html[lang="ta"], html[lang="te"] {
   --line-height-normal: 1.65;
-  --line-height-snug: 1.5;
 }
 
-html[lang="gu"] {
-  --line-height-normal: 1.6;
-}
-
-html[lang="pa"] {
+html[lang="gu"], html[lang="pa"] {
   --line-height-normal: 1.6;
 }
 
 /* --------------------------------------------------------------------------
-   Typography Hierarchy
+   Typography Hierarchy (Calm, Editorial, Readable)
    -------------------------------------------------------------------------- */
 h1, h2, h3, h4, h5, h6 {
   color: var(--color-text);
   font-family: var(--font-family-display);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
 }
 
 h1 {
-  font-size: clamp(1.6rem, 4vw + 0.5rem, var(--font-size-3xl));
-  margin-bottom: var(--space-sm);
+  font-size: clamp(1.65rem, 3.5vw + 0.5rem, var(--font-size-4xl));
+  margin-bottom: var(--space-xs);
 }
 
 h2 {
-  font-size: clamp(1.3rem, 3vw + 0.4rem, var(--font-size-2xl));
-  margin-bottom: var(--space-xs);
+  font-size: clamp(1.25rem, 2.5vw + 0.3rem, var(--font-size-2xl));
+  margin-bottom: var(--space-2xs);
 }
 
 h3 {
-  font-size: clamp(1.1rem, 2vw + 0.3rem, var(--font-size-xl));
-  margin-bottom: var(--space-xs);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-2xs);
 }
 
 h4 {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-}
-
-h5 {
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-semibold);
 }
 
+h5 {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
 p {
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-sm);
   color: var(--color-text-secondary);
+  font-size: 0.9375rem; /* 15px */
 }
 
 p:last-child {
@@ -104,7 +100,7 @@ p:last-child {
 }
 
 .text-lead {
-  font-size: var(--font-size-md);
+  font-size: 1.0625rem; /* 17px */
   color: var(--color-text);
   line-height: var(--line-height-relaxed);
 }
@@ -133,23 +129,23 @@ p:last-child {
   color: var(--color-primary);
 }
 
-.text-safe {
-  color: var(--color-safe-text);
-}
-
-.text-warn {
-  color: var(--color-warn-text);
-}
-
 .text-danger {
   color: var(--color-danger-text);
 }
 
+.text-warning {
+  color: var(--color-warning-text);
+}
+
+.text-success, .text-safe {
+  color: var(--color-success-text);
+}
+
 /* --------------------------------------------------------------------------
-   Links & Buttons Base
+   Links & Base Controls
    -------------------------------------------------------------------------- */
 a {
-  color: var(--color-primary);
+  color: var(--color-text);
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: color var(--transition-fast);
@@ -168,19 +164,20 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   Form & Input Elements
+   Inputs & Form Elements
    -------------------------------------------------------------------------- */
 input, textarea, select {
   font-family: inherit;
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   color: var(--color-text);
-  background-color: var(--color-surface-card);
-  border: 1.5px solid var(--color-border);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  padding: var(--space-sm) var(--space-md);
+  padding: 0.6rem 0.85rem;
   width: 100%;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   outline: none;
+  min-height: var(--min-touch-target);
 }
 
 input:focus, textarea:focus, select:focus {
@@ -189,11 +186,11 @@ input:focus, textarea:focus, select:focus {
 }
 
 input::placeholder, textarea::placeholder {
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
 }
 
 /* --------------------------------------------------------------------------
-   Accessibility & Focus Ring
+   Accessibility Focus & Screen Reader Helpers
    -------------------------------------------------------------------------- */
 :focus-visible {
   outline: 2px solid var(--color-focus);
@@ -219,7 +216,7 @@ input::placeholder, textarea::placeholder {
   background: var(--color-primary);
   color: var(--color-primary-contrast);
   padding: var(--space-xs) var(--space-md);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-sm);
   z-index: 9999;
   text-decoration: none;
   font-weight: var(--font-weight-semibold);
@@ -231,29 +228,16 @@ input::placeholder, textarea::placeholder {
 }
 
 /* --------------------------------------------------------------------------
-   Utility Classes & Layout Helpers
+   Utility Layout Classes
    -------------------------------------------------------------------------- */
-.flex {
-  display: flex;
-}
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
 
-.flex-col {
-  display: flex;
-  flex-direction: column;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-between {
-  justify-content: space-between;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
+.gap-2xs { gap: var(--space-2xs); }
 .gap-xs { gap: var(--space-xs); }
 .gap-sm { gap: var(--space-sm); }
 .gap-md { gap: var(--space-md); }
@@ -263,57 +247,53 @@ input::placeholder, textarea::placeholder {
 
 .divider {
   height: 1px;
-  background-color: var(--color-border-subtle);
+  background-color: var(--color-border);
   border: none;
-  margin: var(--space-md) 0;
+  margin: var(--space-lg) 0;
 }
 
 /* --------------------------------------------------------------------------
-   Animations & Transitions
+   Notice & Banner Boxes (Clean, Unpretentious, Explicit)
    -------------------------------------------------------------------------- */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.notice-box {
+  background-color: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  font-size: var(--font-size-sm);
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.notice-box-fictional {
+  background-color: var(--color-surface);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: var(--font-weight-semibold);
 }
 
-@keyframes pulseSubtle {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.02);
-  }
+.notice-box-emergency {
+  background-color: var(--color-danger-surface);
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  color: var(--color-danger-text);
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+/* --------------------------------------------------------------------------
+   Reduced Motion Support
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-}
-
-.animate-fade-in {
-  animation: fadeIn var(--transition-normal) ease-out forwards;
-}
-
-.animate-slide-up {
-  animation: slideUp var(--transition-normal) cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

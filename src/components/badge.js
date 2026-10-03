@@ -1,22 +1,25 @@
 /**
  * ConVerse Shared UI — Badge Component
  * PS-10: Financial Scam Simulator & Awareness Engine
- * Foundation Owner: Tanishka
+ * Foundation & UI Owner: Tanishka
  */
 
-const DEFAULT_ICONS = {
-  safe: "🛡️",
-  warn: "⚠️",
-  danger: "🚨",
-  info: "ℹ️"
+const DEFAULT_SYMBOLS = {
+  safe: "✓",
+  success: "✓",
+  warn: "!",
+  warning: "!",
+  danger: "✕",
+  info: "i",
+  neutral: "•"
 };
 
 /**
- * Creates a reusable Badge element with dual color and symbol indicators
+ * Creates a reusable Badge element with dual symbol + color indicators for accessibility
  * @param {Object} options
  * @param {string} options.text Badge label text
- * @param {"safe"|"warn"|"danger"|"info"} [options.variant="safe"] Status variant
- * @param {string} [options.icon=""] Custom icon / emoji (defaults to variant symbol)
+ * @param {"safe"|"warn"|"danger"|"info"|"neutral"|"success"|"warning"} [options.variant="safe"] Status variant
+ * @param {string} [options.icon=""] Custom icon / symbol (defaults to semantic symbol)
  * @param {string} [options.className=""] Extra class names
  * @param {string} [options.i18nKey=""] i18n translation key
  * @returns {HTMLSpanElement}
@@ -32,11 +35,11 @@ export function createBadge({
   badge.className = `cv-badge cv-badge-${variant} ${className}`.trim();
   badge.setAttribute("role", "status");
 
-  const badgeIcon = icon || DEFAULT_ICONS[variant] || "•";
+  const badgeSymbol = icon || DEFAULT_SYMBOLS[variant] || "•";
   const iconSpan = document.createElement("span");
   iconSpan.className = "cv-badge-icon";
   iconSpan.setAttribute("aria-hidden", "true");
-  iconSpan.innerHTML = badgeIcon;
+  iconSpan.textContent = badgeSymbol;
   badge.appendChild(iconSpan);
 
   const textSpan = document.createElement("span");

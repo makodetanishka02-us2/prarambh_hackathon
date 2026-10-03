@@ -1,18 +1,14 @@
 /**
- * ConVerse Page: Dashboard Shell
+ * ConVerse Page: Homepage (Dashboard)
  * PS-10: Financial Scam Simulator & Awareness Engine
- * Foundation Owner: Tanishka
+ * Foundation & UI Owner: Tanishka
  */
 
 import { t } from '../i18n/i18n.js';
-import { getState } from '../app/state.js';
 import { createButton } from '../components/button.js';
 import { createCard } from '../components/card.js';
 import { createBadge } from '../components/badge.js';
-import { createProgressBar } from '../components/progress.js';
-import { showToast } from '../components/toast.js';
-import { detectScamIndicators } from '../engine/detect/detect-contract.js';
-import { getActiveScamRadar } from '../engine/radar/radar-contract.js';
+import { CORE_CATEGORIES, REALISTIC_SCENARIOS, EMERGENCY_RESOURCES } from '../data/initial-data.js';
 
 export function renderDashboard(container) {
   container.innerHTML = "";
@@ -20,173 +16,134 @@ export function renderDashboard(container) {
   const pageWrap = document.createElement("div");
   pageWrap.className = "page-container";
 
-  const state = getState();
-
-  // 1. Welcome & Defense Status Hero
-  const heroCard = createCard({
-    title: t("dash_welcome"),
-    subtitle: t("dash_tagline"),
-    icon: "🛡️",
-    badge: createBadge({ text: state.user.level, variant: "safe" }),
-    body: `
-      <div style="margin: 12px 0;">
-        <p style="margin-bottom: 8px;">Your financial defense readiness level is active and learning.</p>
+  // 1. Hero Section (Clean, Educational, No Giant Marketing Blob)
+  const heroSection = document.createElement("section");
+  heroSection.className = "hero-section";
+  heroSection.innerHTML = `
+    <div style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: clamp(1.25rem, 3vw, 2.25rem); box-shadow: var(--shadow-xs);">
+      <div style="max-width: 760px;">
+        <span class="cv-badge cv-badge-neutral" style="margin-bottom: 12px;">
+          Financial Safety Training for India
+        </span>
+        <h1 style="margin-bottom: 12px; color: var(--color-text); font-size: clamp(1.6rem, 3.5vw, 2.25rem); line-height: 1.25;">
+          ${t("hero_title")}
+        </h1>
+        <p class="text-lead" style="margin-bottom: 20px; color: var(--color-text-secondary);">
+          ${t("hero_subtitle")}
+        </p>
+        <div class="flex items-center gap-sm" style="flex-wrap: wrap;">
+          <a href="#simulator" class="cv-btn cv-btn-primary cv-btn-md" style="text-decoration: none;">
+            ${t("hero_cta_start")} →
+          </a>
+          <a href="#safety-tips" class="cv-btn cv-btn-secondary cv-btn-md" style="text-decoration: none;">
+            ${t("btn_learn_more")}
+          </a>
+        </div>
       </div>
-    `,
-    footer: `
-      <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-        <span class="text-xs text-muted">National Scam Alerts Synced</span>
-        <span class="cv-badge cv-badge-safe">● Real-time Active</span>
-      </div>
-    `,
-    highlight: "primary"
-  });
-
-  const progressWidget = createProgressBar({
-    value: state.user.awarenessScore,
-    max: 100,
-    label: t("progress_score_label"),
-    variant: "primary"
-  });
-  heroCard.querySelector(".cv-card-body").appendChild(progressWidget);
-  pageWrap.appendChild(heroCard);
-
-  // 2. Emergency Helpline 1930 Banner
-  const helplineBanner = createCard({
-    title: "National Cyber Fraud Emergency Helpline",
-    subtitle: "Immediate intervention for unauthorized UPI, net banking, or OTP fraud",
-    icon: "🚨",
-    badge: createBadge({ text: "Toll-Free 1930", variant: "danger" }),
-    body: `<p class="text-sm">If money was deducted or credentials were leaked in the last 24 hours, call <strong>1930</strong> immediately to freeze funds before cashout.</p>`,
-    footer: `
-      <div class="flex items-center justify-between w-full">
-        <a href="tel:1930" class="cv-btn cv-btn-danger cv-btn-sm" style="text-decoration: none;">
-          📞 Call 1930 Now
-        </a>
-        <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" class="cv-btn cv-btn-outline cv-btn-sm" style="text-decoration: none;">
-          🌐 cybercrime.gov.in
-        </a>
-      </div>
-    `,
-    highlight: "danger"
-  });
-  pageWrap.appendChild(helplineBanner);
-
-  // 3. Quick Scam Scanner Widget (Foundation Slot for Scam Detection Teammate)
-  const scannerContainer = document.createElement("div");
-  scannerContainer.innerHTML = `
-    <div style="margin-bottom: 8px;">
-      <textarea id="scanner-input" rows="3" placeholder="${t('dash_scanner_placeholder')}" style="resize: vertical;"></textarea>
     </div>
-    <div id="scanner-results" style="display: none; margin-top: 10px;"></div>
+  `;
+  pageWrap.appendChild(heroSection);
+
+  // 2. Fictional Disclaimer & Privacy Notice Banner
+  const privacyNotice = document.createElement("div");
+  privacyNotice.className = "notice-box";
+  privacyNotice.innerHTML = `
+    <div class="flex items-start gap-xs">
+      <span class="cv-badge cv-badge-info" style="flex-shrink: 0; margin-top: 1px;">Notice</span>
+      <p class="text-xs text-muted" style="margin: 0; line-height: 1.5;">
+        ${t("home_privacy_notice")}
+      </p>
+    </div>
+  `;
+  pageWrap.appendChild(privacyNotice);
+
+  // 3. How ConVerse Works (3 Structured Steps)
+  const howSection = document.createElement("section");
+  howSection.innerHTML = `
+    <h2 style="margin-bottom: 4px;">${t("home_how_it_works_title")}</h2>
+    <p class="text-sm text-muted" style="margin-bottom: 16px;">Three clear steps to build practical scam resistance.</p>
+    <div class="grid-cols-3">
+      <div class="cv-card" style="background: var(--color-surface);">
+        <div class="text-sm text-bold" style="margin-bottom: 6px; color: var(--color-text);">${t("home_how_it_works_step1")}</div>
+        <p class="text-xs text-muted">${t("home_how_it_works_step1_desc")}</p>
+      </div>
+      <div class="cv-card" style="background: var(--color-surface);">
+        <div class="text-sm text-bold" style="margin-bottom: 6px; color: var(--color-text);">${t("home_how_it_works_step2")}</div>
+        <p class="text-xs text-muted">${t("home_how_it_works_step2_desc")}</p>
+      </div>
+      <div class="cv-card" style="background: var(--color-surface);">
+        <div class="text-sm text-bold" style="margin-bottom: 6px; color: var(--color-text);">${t("home_how_it_works_step3")}</div>
+        <p class="text-xs text-muted">${t("home_how_it_works_step3_desc")}</p>
+      </div>
+    </div>
+  `;
+  pageWrap.appendChild(howSection);
+
+  // 4. Core Scam Categories & Practice Scenarios Grid
+  const categoriesSection = document.createElement("section");
+  categoriesSection.innerHTML = `
+    <div class="flex items-center justify-between" style="margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+      <div>
+        <h2 style="margin-bottom: 2px;">${t("home_categories_title")}</h2>
+        <p class="text-sm text-muted" style="margin: 0;">${t("home_categories_desc")}</p>
+      </div>
+      <a href="#simulator" class="cv-btn cv-btn-secondary cv-btn-sm" style="text-decoration: none;">
+        ${t("btn_view_all")} (${REALISTIC_SCENARIOS.length}) →
+      </a>
+    </div>
   `;
 
-  const scanButton = createButton({
-    text: t("btn_scan"),
-    icon: "🔍",
-    variant: "primary",
-    size: "md",
-    onClick: () => {
-      const inputEl = scannerContainer.querySelector("#scanner-input");
-      const resultsEl = scannerContainer.querySelector("#scanner-results");
-      const query = inputEl ? inputEl.value.trim() : "";
+  const scenariosGrid = document.createElement("div");
+  scenariosGrid.className = "grid-cols-2";
 
-      if (!query) {
-        showToast({
-          title: "Input Required",
-          message: "Please paste a message or UPI note to scan.",
-          type: "warn"
-        });
-        return;
-      }
-
-      // Execute detection contract
-      const result = detectScamIndicators(query);
-      resultsEl.style.display = "block";
-      resultsEl.innerHTML = `
-        <div class="cv-card cv-card-highlight-${result.riskLevel}" style="padding: 12px; background: var(--color-surface);">
-          <div class="flex items-center justify-between" style="margin-bottom: 6px;">
-            <strong class="text-sm">${result.riskLevel === "danger" ? "🚨 Scam Indicators Detected" : "🛡️ Analysis Complete"}</strong>
-            <span class="cv-badge cv-badge-${result.riskLevel}">Risk: ${result.confidenceScore}%</span>
-          </div>
-          <p class="text-xs" style="margin-bottom: 6px;">${result.explanation}</p>
-          ${
-            result.recommendedActions.length > 0
-              ? `<ul style="padding-left: 18px; font-size: 12px; color: var(--color-text);">
-                  ${result.recommendedActions.map(a => `<li>${a}</li>`).join("")}
-                </ul>`
-              : ""
-          }
+  REALISTIC_SCENARIOS.slice(0, 4).forEach(scenario => {
+    const card = createCard({
+      title: scenario.title,
+      subtitle: `${scenario.categoryLabel} • Difficulty: ${scenario.difficulty} • ~${scenario.timeMinutes} mins`,
+      badge: createBadge({ text: scenario.difficulty.toUpperCase(), variant: scenario.difficulty === "Easy" ? "safe" : scenario.difficulty === "Hard" ? "danger" : "warn" }),
+      body: `<p class="text-sm">${scenario.shortDescription}</p>`,
+      footer: `
+        <div class="flex items-center justify-between w-full">
+          <span class="text-xs text-muted">${scenario.sender}</span>
+          <a href="#simulator" class="cv-btn cv-btn-primary cv-btn-sm" style="text-decoration: none;">
+            ${t("sim_start_scenario")} →
+          </a>
         </div>
-      `;
-      showToast({
-        title: "Scan Complete",
-        message: result.explanation,
-        type: result.riskLevel
-      });
-    }
+      `,
+      interactive: true,
+      onClick: () => {
+        window.location.hash = "#simulator";
+      }
+    });
+    scenariosGrid.appendChild(card);
   });
 
-  const scannerCard = createCard({
-    title: t("dash_scanner_title"),
-    subtitle: t("dash_scanner_desc"),
-    icon: "⚡",
-    body: scannerContainer,
-    footer: scanButton,
-    highlight: "warn"
-  });
-  pageWrap.appendChild(scannerCard);
+  categoriesSection.appendChild(scenariosGrid);
+  pageWrap.appendChild(categoriesSection);
 
-  // 4. Active Threat Radar Slot (Foundation Slot for Radar Teammate)
-  const radarThreats = getActiveScamRadar();
-  const radarListEl = document.createElement("div");
-  radarListEl.className = "flex-col gap-xs";
-
-  radarThreats.slice(0, 2).forEach(threat => {
-    const item = document.createElement("div");
-    item.className = "flex items-center justify-between p-sm";
-    item.style.backgroundColor = "var(--color-surface)";
-    item.style.borderRadius = "var(--radius-sm)";
-    item.style.padding = "8px 12px";
-    item.style.border = "1px solid var(--color-border-subtle)";
-    item.innerHTML = `
-      <div>
-        <div class="text-sm text-bold">${threat.title}</div>
-        <div class="text-xs text-muted">${threat.category} • ${threat.trend}</div>
+  // 5. Clearly Separated Emergency Help Section (No False Partner Claims)
+  const emergencySection = document.createElement("section");
+  emergencySection.className = "notice-box-emergency";
+  emergencySection.innerHTML = `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div class="flex items-center gap-xs">
+        <span class="cv-badge cv-badge-danger">Emergency Assistance</span>
+        <strong style="font-size: 15px; color: var(--color-danger-text);">${t("home_emergency_title")}</strong>
       </div>
-      <span class="cv-badge cv-badge-${threat.severity}">${threat.reportedCount} reported</span>
-    `;
-    radarListEl.appendChild(item);
-  });
-
-  const radarCard = createCard({
-    title: t("dash_radar_title"),
-    subtitle: t("dash_radar_desc"),
-    icon: "📡",
-    body: radarListEl,
-    footer: `
-      <a href="#progress" class="cv-btn cv-btn-outline cv-btn-sm" style="text-decoration: none;">
-        ${t("btn_view_all")} Trends →
-      </a>
-    `
-  });
-  pageWrap.appendChild(radarCard);
-
-  // 5. Daily Defense Challenge
-  const dailyCard = createCard({
-    title: t("dash_daily_challenge"),
-    subtitle: t("dash_daily_challenge_desc"),
-    icon: "🎯",
-    badge: createBadge({ text: "+50 Defense XP", variant: "info" }),
-    body: `<p class="text-sm">Scenario: An SMS arrives stating "Dear consumer, your electricity supply will be disconnected at 9:30 PM due to unupdated bill. Contact 98765-XXXXX immediately."</p>`,
-    footer: `
-      <a href="#simulator" class="cv-btn cv-btn-primary cv-btn-sm" style="text-decoration: none;">
-        ${t("btn_start")} Simulation →
-      </a>
-    `,
-    highlight: "primary"
-  });
-  pageWrap.appendChild(dailyCard);
+      <p class="text-sm" style="margin: 0; color: var(--color-danger-text);">
+        ${t("home_emergency_desc")}
+      </p>
+      <div class="flex items-center gap-sm" style="flex-wrap: wrap; margin-top: 4px;">
+        <a href="tel:1930" class="cv-btn cv-btn-danger cv-btn-sm" style="text-decoration: none;">
+          📞 ${t("home_emergency_cta")}
+        </a>
+        <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" class="cv-btn cv-btn-secondary cv-btn-sm" style="text-decoration: none;">
+          🌐 Official Cyber Crime Portal (cybercrime.gov.in) ↗
+        </a>
+      </div>
+    </div>
+  `;
+  pageWrap.appendChild(emergencySection);
 
   container.appendChild(pageWrap);
 }

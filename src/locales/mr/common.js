@@ -1,6 +1,7 @@
 /**
  * ConVerse i18n — Marathi (mr / मराठी)
  * PS-10: Financial Scam Simulator & Awareness Engine
+ * Foundation & UI Owner: Tanishka
  */
 
 export default {
@@ -9,94 +10,117 @@ export default {
   app_short_desc: "भारतातील सायबर फसवणूक ओळखणे, टाळणे आणि स्वतःचे रक्षण करणे शिका.",
 
   // Navigation
-  nav_dashboard: "डॅशबोर्ड",
+  nav_home: "होम",
+  nav_dashboard: "होम",
+  nav_scenarios: "परिदृश्ये",
   nav_simulator: "सिम्युलेटर",
-  nav_safety_tips: "सुरक्षा टिप्स",
+  nav_safety_tips: "सुरक्षा मार्गदर्शक",
+  nav_safety_guides: "सुरक्षा मार्गदर्शक",
   nav_progress: "प्रगती",
   nav_settings: "सेटिंग्ज",
   nav_styleguide: "स्टाईलगाईड",
 
+  // Homepage Hero
+  hero_title: "फसवणुकीत पैसे गमावण्यापूर्वी धोका ओळखायला शिका.",
+  hero_subtitle: "खऱ्या आर्थिक फसवणुकीच्या प्रसंगांचा सराव करा, निर्णय घ्या आणि आपण कोणते इशारे ओळखले ते समजून घ्या.",
+  hero_cta_start: "सिम्युलेशन सुरू करा",
+  hero_cta_explore: "परिदृश्ये पहा",
+
   // Common UI Actions
-  btn_scan: "सामग्री तपासा",
+  btn_scan: "संदेश तपासा",
   btn_simulate: "सिम्युलेशन सुरू करा",
-  btn_learn_more: "अधिक जाणून घ्या",
+  btn_learn_more: "मार्गदर्शक वाचा",
   btn_start: "सुरू करा",
-  btn_next: "पुढे",
+  btn_next: "पुढील पायरी",
   btn_prev: "मागे",
   btn_back: "परत",
   btn_close: "बंद करा",
-  btn_retry: "पुन्हा प्रयत्न करा",
+  btn_retry: "दुसरा प्रसंग पहा",
   btn_reset: "डेटा रीसेट करा",
   btn_submit: "सबमिट करा",
   btn_dismiss: "हटवा",
   btn_share: "माहिती शेअर करा",
   btn_view_all: "सर्व पहा",
   btn_verify: "सत्यापित करा",
-  btn_report: "तक्रार नोंदवा (1930)",
+  btn_report: "हेल्पलाईन (1930)",
 
   // Status Badges
   badge_safe: "सुरक्षित व प्रमाणित",
   badge_warn: "संशयास्पद इशारा",
   badge_danger: "धोकादायक फसवणूक",
   badge_info: "सुरक्षा माहिती",
+  badge_fictional: "काल्पनिक सिम्युलेशन",
 
-  // Dashboard
-  dash_welcome: "कन्व्हर्स फ्रॉड डिफेन्स",
-  dash_tagline: "UPI, बनावट कॉल्स आणि फसव्या मेसेजपासून सदैव सावध राहा.",
-  dash_radar_title: "सक्रिय धोका रडार",
-  dash_radar_desc: "महाराष्ट्रात आणि भारतात पसरत असलेल्या सायबर गुन्ह्यांचे रिअल-टाइम ट्रेंड्स.",
-  dash_scanner_title: "झटपट स्कॅम स्कॅनर",
-  dash_scanner_desc: "संशयास्पद मेसेज, QR कोड किंवा UPI लिंक तपासा.",
-  dash_scanner_placeholder: "संशयास्पद मेसेज किंवा लिंक येथे पेस्ट करा...",
-  dash_daily_challenge: "दैनिक सुरक्षा आव्हान",
-  dash_daily_challenge_desc: "वीज बिल फसवणूक सिम्युलेशनमध्ये आजची परीक्षा द्या.",
-  dash_quick_tips: "झटपट सुरक्षा तपासणी",
-  dash_helpline_banner: "राष्ट्रीय सायबर गुन्हे हेल्पलाईन: 1930 वर कॉल करा",
+  // Homepage Sections
+  home_categories_title: "भारतातील सामान्य सायबर गुन्ह्यांचे प्रकार",
+  home_categories_desc: "वेगवेगळ्या फसव्या मार्गांमधील धोक्याचे संकेत ओळखण्याचा सराव करा.",
+  home_how_it_works_title: "कन्व्हर्स कसे कार्य करते",
+  home_how_it_works_step1: "1. सराव प्रसंग पहा",
+  home_how_it_works_step1_desc: "बनावट मेसेज, QR कोड किंवा कॉल्सची पाहणी करा.",
+  home_how_it_works_step2: "2. तुमचा निर्णय घ्या",
+  home_how_it_works_step2_desc: "दिल्या गेलेल्या माहितीच्या आधारे योग्य तो निर्णय घ्या.",
+  home_how_it_works_step3: "3. धोक्याचे संकेत समजून घ्या",
+  home_how_it_works_step3_desc: "योग्य व सुरक्षित पर्याय काय होता ते जाणून घ्या.",
+  home_privacy_notice: "सर्व सिम्युलेशन्स काल्पनिक आहेत. कन्व्हर्स कधीही तुमचा UPI PIN, OTP किंवा बँक तपशील मागत नाही.",
+  home_emergency_title: "आपले पैसे खरोखर गेले असल्यास किंवा गोपनीय माहिती शेअर झाली असल्यास",
+  home_emergency_desc: "तातडीने 1930 या राष्ट्रीय सायबर गुन्हे हेल्पलाईनवर संपर्क करा किंवा cybercrime.gov.in वर तक्रार नोंदवा.",
+  home_emergency_cta: "1930 वर कॉल करा",
 
   // Simulator
-  sim_title: "इंटरॅक्टिव्ह स्कॅम सिम्युलेटर",
-  sim_subtitle: "सुरक्षित वातावरणात बनावट कॉल्स आणि QR सापळ्यांचा अनुभव घ्या.",
+  sim_title: "आर्थिक फसवणूक सिम्युलेटर",
+  sim_subtitle: "सुरक्षित वातावरणात बनावट कॉल्स आणि पेमेंट विनंत्यांचा सराव करा.",
   sim_categories: "फसवणुकीचे प्रकार",
-  sim_cat_upi: "UPI आणि बनावट QR कोड",
-  sim_cat_calls: "बनावट बँक अधिकारी कॉल्स",
-  sim_cat_phishing: "SMS आणि संशयास्पद लिंक्स",
-  sim_cat_job: "पार्ट-टाइम जॉब फ्रॉड",
-  sim_cat_investment: "जास्त परतावा देणारी खोटी गुंतवणूक",
+  sim_cat_upi: "UPI आणि पेमेंट फसवणूक",
+  sim_cat_kyc: "बँक आणि KYC स्कॅम",
+  sim_cat_phishing: "फिशिंग लिंक्स",
+  sim_cat_job: "जॉब / टास्क स्कॅम",
+  sim_cat_investment: "गुंतवणूक फसवणूक",
+  sim_cat_loan: "कर्ज (लोन) स्कॅम",
   sim_difficulty: "काठिण्य पातळी",
-  sim_start_scenario: "सिम्युलेशन सुरू करा",
-  sim_active_session: "सक्रिय सिम्युलेशन सँडबॉक्स",
-  sim_hook_notice: "सिम्युलेशन इंजिन येथे इंटरॅक्टिव्ह परिस्थिती लोड करेल.",
+  sim_start_scenario: "सराव सुरू करा",
+  sim_active_session: "सिम्युलेटेड इंटरफेस",
+  sim_hook_notice: "सिम्युलेटर सँडबॉक्स तयार आहे.",
+  sim_fictional_banner: "काल्पनिक सिम्युलेशन — खरी गोपनीय माहिती कधीही देऊ नका.",
+  sim_decision_title: "तुम्ही काय कराल?",
+  sim_results_title: "सिम्युलेशन निकाल व विश्लेषण",
+  sim_score_label: "जागरूकता स्कोअर",
+  sim_red_flags_caught: "ओळखलेले धोक्याचे संकेत",
+  sim_red_flags_missed: "दुर्लक्षित राहिलेले संकेत",
+  sim_stopping_point: "फसवणूक कुठे रोखता आली असती",
 
-  // Safety Tips
-  tips_title: "सुरक्षा मार्गदर्शक",
-  tips_subtitle: "फसवणूक टाळण्याचे मार्ग आणि आपत्कालीन चेकलिस्ट.",
+  // Safety Guides
+  tips_title: "प्रमाणित सुरक्षा मार्गदर्शक",
+  tips_subtitle: "सायबर फसवणुकीपासून सुरक्षित राहण्यासाठी नियम आणि काय करावे / काय करू नये.",
   tips_emergency_heading: "तातडीने करावयाची कृती",
-  tips_emergency_desc: "आपण चुकून OTP दिला असल्यास किंवा पैसे पाठवले असल्यास:",
+  tips_emergency_desc: "आपण चुकून OTP दिला असल्यास किंवा अनधिकृत व्यवहार झाला असल्यास:",
   tips_call_1930: "ताबडतोब 1930 क्रमांकावर कॉल करा",
-  tips_block_bank: "UPI व बँक खाते ब्लॉक करा",
-  tips_search_placeholder: "सुरक्षा नियम शोधा (उदा. OTP, UPI)...",
+  tips_block_bank: "UPI व बँक खाती ब्लॉक करा",
+  tips_search_placeholder: "शोध घ्या (उदा. UPI PIN, QR कोड, OTP)...",
 
   // Progress
-  progress_title: "जागरूकता आणि डिफेन्स स्कोअर",
-  progress_subtitle: "आपली सुरक्षा तयारी आणि मिळालेले बॅजेस तपासा.",
-  progress_score_label: "डिफेन्स तयारी स्कोअर",
-  progress_badges_title: "मिळालेले सुरक्षा बॅजेस",
-  progress_vulnerability_radar: "धोका रडार",
-  progress_simulations_done: "पूर्ण केलेले सिम्युलेशन्स",
+  progress_title: "जागरूकता आणि प्रगती",
+  progress_subtitle: "तुमची सुरक्षा तयारी आणि पूर्ण केलेले सराव तपासा.",
+  progress_score_label: "तयारी स्कोअर",
+  progress_badges_title: "सुरक्षा बॅजेस",
+  progress_vulnerability_radar: "विभागवार सुरक्षा स्थिती",
+  progress_simulations_done: "पूर्ण केलेले सराव",
+  progress_empty_title: "अद्याप कोणताही सराव पूर्ण नाही",
+  progress_empty_desc: "तुमचे प्रोफाईल तयार करण्यासाठी पहिला सराव पूर्ण करा.",
 
   // Settings
   settings_title: "अॅप सेटिंग्ज",
-  settings_subtitle: "भाषा, ऑफलाइन मोड आणि प्रोफाइल व्यवस्थापित करा.",
-  settings_language: "भाषा निवडा (Language)",
-  settings_offline_mode: "ऑफलाइन डिफेन्स मोड",
+  settings_subtitle: "भाषा, स्थानिक डेटा आणि ऑफलाइन वापराचे व्यवस्थापन करा.",
+  settings_language: "भाषा निवडा / Select Language",
+  settings_offline_mode: "ऑफलाइन सराव मोड",
   settings_offline_desc: "इंटरनेट नसतानाही सराव करण्यासाठी ऑफलाइन मोड वापरा.",
   settings_reset_data: "प्रगती रीसेट करा",
-  settings_reset_desc: "सर्व मिळालेले बॅजेस काढून पुन्हा पहिल्यापासून सुरू करा.",
+  settings_reset_desc: "मागील सर्व डेटा काढून पुन्हा नव्याने सुरुवात करा.",
   settings_about_title: "कन्व्हर्स विषयी",
   settings_about_desc: "कन्व्हर्स हे भारतातील नागरिकांसाठी तयार केलेले आर्थिक सुरक्षा प्लॅटफॉर्म आहे.",
-  settings_version: "प्रोटोटाइप आवृत्ती 1.0.0 (फाउंडेशन: तनिष्का)",
+  settings_privacy_storage: "कन्व्हर्स तुमचा डेटा याच डिव्हाइसवर सुरक्षित ठेवते. कोणतीही वैयक्तिक माहिती गोळा केली जात नाही.",
+  settings_version: "प्रोटोटाइप आवृत्ती 1.0.0 (फाउंडेशन व UI: तनिष्का)",
 
   // Styleguide
-  styleguide_title: "डिझाइन सिस्टीम स्टाईलगाईड",
-  styleguide_subtitle: "पुनर्वापरयोग्य घटक, बटणे, कार्डे आणि लेआउट."
+  styleguide_title: "कन्व्हर्स डिझाइन सिस्टीम स्टाईलगाईड",
+  styleguide_subtitle: "पुनर्वापरयोग्य घटक, बटणे, कार्डे, बॅजेस आणि चॅनेल घटक."
 };

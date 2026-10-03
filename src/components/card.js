@@ -1,7 +1,7 @@
 /**
  * ConVerse Shared UI — Card Component
  * PS-10: Financial Scam Simulator & Awareness Engine
- * Foundation Owner: Tanishka
+ * Foundation & UI Owner: Tanishka
  */
 
 /**
@@ -9,13 +9,13 @@
  * @param {Object} options
  * @param {string} [options.title=""] Card title
  * @param {string} [options.subtitle=""] Card subtitle
- * @param {string} [options.icon=""] Card icon or emoji
+ * @param {string} [options.icon=""] Card icon or symbol
  * @param {HTMLElement|string} [options.badge=null] Optional badge in header
  * @param {HTMLElement|string} [options.headerAction=null] Optional action button in header
  * @param {HTMLElement|string} [options.body=""] Content of the card
  * @param {HTMLElement|string} [options.footer=null] Optional footer section
  * @param {boolean} [options.interactive=false] Whether card has hover/click interaction
- * @param {"none"|"primary"|"safe"|"warn"|"danger"} [options.highlight="none"] Border accent highlight
+ * @param {"none"|"primary"|"safe"|"warn"|"danger"} [options.highlight="none"] Left border accent
  * @param {Function} [options.onClick=null] Click handler
  * @param {string} [options.className=""] Extra class names
  * @param {string} [options.id=""] ID
@@ -58,6 +58,7 @@ export function createCard({
     if (icon) {
       const iconEl = document.createElement("span");
       iconEl.className = "cv-card-icon";
+      iconEl.setAttribute("aria-hidden", "true");
       iconEl.innerHTML = icon;
       titleGroup.appendChild(iconEl);
     }
@@ -81,7 +82,7 @@ export function createCard({
     // Header Right Actions / Badge
     if (badge || headerAction) {
       const rightWrap = document.createElement("div");
-      rightWrap.className = "cv-card-header-actions flex items-center gap-xs";
+      rightWrap.className = "flex items-center gap-xs";
       if (badge) {
         if (typeof badge === "string") {
           const b = document.createElement("span");
