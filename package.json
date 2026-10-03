@@ -1,0 +1,26 @@
+{
+  "name": "converse-scam-awareness-engine",
+  "version": "1.0.0",
+  "description": "ConVerse — Financial Scam Simulator & Awareness Engine. Mobile-first, 7-language PWA prototype for financial scam awareness in India.",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "test": "node tests/test-runner.js"
+  },
+  "keywords": [
+    "scam-awareness",
+    "financial-safety",
+    "simulator",
+    "vanilla-js",
+    "pwa",
+    "i18n",
+    "india"
+  ],
+  "author": "ConVerse Team (Foundation by Tanishka)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

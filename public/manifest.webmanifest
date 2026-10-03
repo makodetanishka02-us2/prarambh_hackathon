@@ -1,0 +1,26 @@
+{
+  "name": "ConVerse — Financial Scam Awareness Engine",
+  "short_name": "ConVerse",
+  "description": "Interactive financial scam simulator, threat radar, and awareness engine for India.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#F5EBDD",
+  "theme_color": "#6F4E37",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/public/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/public/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "finance", "security"]
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6F4E37"/>
+      <stop offset="100%" stop-color="#C88A58"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#462D1E" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <!-- Background Rounded Shield -->
+  <rect width="192" height="192" rx="42" fill="#F5EBDD"/>
+  <g filter="url(#shadow)">
+    <path d="M96 28 L148 50 V94 C148 126 126 154 96 164 C66 154 44 126 44 94 V50 Z" fill="url(#brandGrad)"/>
+    <!-- Center Check / Defense Symbol -->
+    <path d="M84 104 L72 92 L64 100 L84 120 L128 76 L120 68 Z" fill="#FFFFFF"/>
+  </g>
+</svg>
